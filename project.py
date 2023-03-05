@@ -12,9 +12,17 @@ def register():
 
     cursor.execute(f"SELECT * FROM User WHERE username='{user}'")
     cursor.fetchall()
+    userblank = cursor.rowcount
 
-    if cursor.rowcount != 0:
+    cursor.execute(f"SELECT * FROM User WHERE email='{email}'")
+    cursor.fetchall()
+    emailblank = cursor.rowcount
+
+    if userblank != 0:
         regexistsrow = tk.Label(root, text = "Username already exists             ")
+        regexistsrow.place(x = 150, y = 330)
+    elif emailblank != 0:
+        regexistsrow = tk.Label(root, text = "Email already exists             ")
         regexistsrow.place(x = 150, y = 330)
     elif user == "":
         regexistsrow = tk.Label(root, text = "Username field is blank                 ")
@@ -32,18 +40,25 @@ def register():
         regexistsrow = tk.Label(root, text = "Email field is blank                        ")
         regexistsrow.place(x = 150, y = 330)
     else:
-        regexistsrow = tk.Label(root, text = "                                                                                  ")
+        regexistsrow = tk.Label(root, text = "Registration Complete                                                                              ")
         regexistsrow.place(x = 150, y = 330)
+        cursor.execute("INSERT INTO User (username, password, firstname, lastname, email) VALUES (%s, %s, %s, %s, %s)", (user, passw, firstname, lastname, email))
+        dataBase.commit()
 
-    cursor.execute("INSERT INTO User (username, password, firstname, lastname, email) VALUES (%s, %s, %s, %s, %s)", (user, passw, firstname, lastname, email))
 
 
 def submission():
-     user = Username.get()
-     passw = password.get()
+    user = Username.get()
+    passw = password.get()
 
-     print(user)
-     print(passw)
+    cursor.execute(f"SELECT * FROM User WHERE username='{user}'")
+
+    for x in cursor:
+        print(x)
+
+def reset():
+    cursor.execute("DELETE FROM User")
+    dataBase.commit()
 
 try:
     dataBase = mysql.connector.connect(
@@ -71,20 +86,20 @@ root.title("DBMS Login Page")
   
  
 # Defining the first row
-lblfrstrow = tk.Label(root, text ="Username -", )
+lblfrstrow = tk.Label(root, text ="Username:", )
 lblfrstrow.place(x = 50, y = 20)
  
 Username = tk.Entry(root, width = 35)
 Username.place(x = 150, y = 20, width = 100)
   
-lblsecrow = tk.Label(root, text ="Password -")
+lblsecrow = tk.Label(root, text ="Password:")
 lblsecrow.place(x = 50, y = 50)
  
 password = tk.Entry(root, width = 35)
 password.place(x = 150, y = 50, width = 100)
 
 submitbtn = tk.Button(root, text ="Login",
-                      bg ='blue', command = submission)
+                      bg ='blue', fg= 'white', command = submission)
 submitbtn.place(x = 150, y = 80, width = 55)
 
 
@@ -119,8 +134,12 @@ regemail = tk.Entry(root, width = 35)
 regemail.place(x = 150, y = 270, width = 100)
 
 registerbtn = tk.Button(root, text = "Register",
-                        bg = 'blue', command = register)
+                        bg = 'blue', fg='white', command = register)
 registerbtn.place(x = 150, y = 300, width = 55)
+
+resetbutton = tk.Button(root, text = "Reset Database",
+                        bg = 'blue', fg='white', command = reset)
+resetbutton.place(x = 100, y = 360, width = 155)
 
  
 root.mainloop()
