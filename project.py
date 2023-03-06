@@ -47,14 +47,19 @@ def register():
 
 
 
-def submission():
+def signin():
     user = Username.get()
     passw = password.get()
 
-    cursor.execute(f"SELECT * FROM User WHERE username='{user}'")
+    cursor.execute(f"SELECT * FROM User WHERE username='{user}' AND password='{passw}'")
+    cursor.fetchall()
 
-    for x in cursor:
-        print(x)
+    if cursor.rowcount == 0:
+        credentialsrow = tk.Label(root, text = "Wrong info. Try again.             ")
+        credentialsrow.place(x = 120, y = 110)
+    else:
+        credentialsrow = tk.Label(root, text = "Credentials match. Signing in!                   ")
+        credentialsrow.place(x = 120, y = 110)
 
 def reset():
     cursor.execute("DELETE FROM User")
@@ -99,7 +104,7 @@ password = tk.Entry(root, width = 35)
 password.place(x = 150, y = 50, width = 100)
 
 submitbtn = tk.Button(root, text ="Login",
-                      bg ='blue', fg= 'white', command = submission)
+                      bg ='blue', fg= 'white', command = signin)
 submitbtn.place(x = 150, y = 80, width = 55)
 
 
