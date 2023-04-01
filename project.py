@@ -7,6 +7,46 @@ import tkinter as tk
 from mysql.connector import Error
 from tkinter import *
 
+
+def insertItems():
+
+    def updateItems():
+        title = itemTitle.get()
+        description = itemDescription.get()
+        category = itemCategory.get()
+        price = itemPrice.get()
+
+        cursor.execute("INSERT INTO Items (title, description, category, price, rating) VALUES (%s, %s, %s, %s, %s)", (title, description, category, price, ""))
+        dataBase.commit()
+
+    lbltitle = tk.Label(root, text ="Title:", )
+    lbltitle.place(x = 300, y = 20)
+    
+    itemTitle = tk.Entry(root, width = 35)
+    itemTitle.place(x = 400, y = 20, width = 100)
+
+    lblDescription = tk.Label(root, text ="Description:", )
+    lblDescription.place(x = 300, y = 50)
+    
+    itemDescription = tk.Entry(root, width = 35)
+    itemDescription.place(x = 400, y = 50, width = 100)
+
+    lblCategory = tk.Label(root, text ="Category:", )
+    lblCategory.place(x = 300, y = 80)
+    
+    itemCategory = tk.Entry(root, width = 35)
+    itemCategory.place(x = 400, y = 80, width = 100)
+
+    lblPrice = tk.Label(root, text ="Price:", )
+    lblPrice.place(x = 300, y = 110)
+    
+    itemPrice = tk.Entry(root, width = 35)
+    itemPrice.place(x = 400, y = 110, width = 100)
+
+    itemsubmit = tk.Button(root, text ="Post Item",
+                      bg ='blue', fg= 'white', command = updateItems)
+    itemsubmit.place(x = 400, y = 140, width = 55)
+
 def register():
     user = regUsername.get()
     passw = regpassword.get()
@@ -68,6 +108,7 @@ def signin():
     else:
         credentialsrow = tk.Label(root, text = "Credentials match. Signing in!                   ")
         credentialsrow.place(x = 120, y = 110)
+        insertItems()
 
 def reset():
     cursor.execute("DELETE FROM User")
@@ -88,13 +129,18 @@ cursor = dataBase.cursor()
 
 # cursor.execute("CREATE TABLE User (username varchar(255), password varchar(255), firstName char(255), lastName char(255), email varchar(255))")
 # cursor.execute("INSERT INTO User (username, password, firstname, lastname, email) VALUES (%s, %s, %s, %s, %s)", ("jasonk", "password", "jason", "khalili", "jk@yahoo.com"))
+
+# cursor.execute("DROP TABLE Items")
+# cursor.execute("CREATE TABLE Items (title varchar(255), description varchar(255), category varchar(255), price varchar(255), rating varchar(255))")
+# cursor.execute("INSERT INTO Items (title, description, category, price, rating) VALUES (%s, %s, %s, %s, %s)", ("test", "asdf", "asdf, asdf", "5000", ""))
+
 cursor.execute("SELECT * FROM User")
 
 for x in cursor:
     print(x)
 
 root = tk.Tk()
-root.geometry("300x600")
+root.geometry("900x600")
 root.title("DBMS Login Page")
   
  
