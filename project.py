@@ -9,7 +9,6 @@ from tkinter import *
 
 
 def insertItems():
-
     def updateItems():
         title = itemTitle.get()
         description = itemDescription.get()
@@ -18,6 +17,10 @@ def insertItems():
 
         cursor.execute("INSERT INTO Items (title, description, category, price, rating) VALUES (%s, %s, %s, %s, %s)", (title, description, category, price, ""))
         dataBase.commit()
+
+        secondary_window = tk.Toplevel()
+        secondary_window.title("List of Items")
+        secondary_window.config(width=1600, height=400)
 
     lbltitle = tk.Label(root, text ="Title:", )
     lbltitle.place(x = 300, y = 20)
