@@ -22,6 +22,27 @@ def insertItems():
         secondary_window.title("List of Items")
         secondary_window.config(width=1600, height=400)
 
+        cursor.execute("SELECT * FROM Items")
+        yIncrement = 20
+
+        for x in cursor:
+            lbl1 = tk.Label(secondary_window, text=x[0])
+            lbl1.place(x = 20, y = yIncrement)
+
+            lbl2 = tk.Label(secondary_window, text=x[1])
+            lbl2.place(x = 70, y = yIncrement)
+
+            lbl3 = tk.Label(secondary_window, text=x[2])
+            lbl3.place(x = 200, y = yIncrement)
+
+            lbl4 = tk.Label(secondary_window, text=x[3])
+            lbl4.place(x = 250, y = yIncrement)
+
+            lbl5 = tk.Label(secondary_window, text="dropdown")
+            lbl5.place(x = 300, y = yIncrement)
+
+            yIncrement += 30
+
     lbltitle = tk.Label(root, text ="Title:", )
     lbltitle.place(x = 300, y = 20)
     
