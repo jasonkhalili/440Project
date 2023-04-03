@@ -8,14 +8,14 @@ from mysql.connector import Error
 from tkinter import *
 
 
-def insertItems():
+def insertItems(username):
     def updateItems():
         title = itemTitle.get()
         description = itemDescription.get()
         category = itemCategory.get()
         price = itemPrice.get()
 
-        cursor.execute("INSERT INTO Items (title, description, category, price, rating) VALUES (%s, %s, %s, %s, %s)", (title, description, category, price, ""))
+        cursor.execute("INSERT INTO Items (username, title, description, category, price, rating) VALUES (%s, %s, %s, %s, %s, %s)", (username, title, description, category, price, ""))
         dataBase.commit()
 
         secondary_window = tk.Toplevel()
@@ -26,16 +26,16 @@ def insertItems():
         yIncrement = 20
 
         for x in cursor:
-            lbl1 = tk.Label(secondary_window, text=x[0])
+            lbl1 = tk.Label(secondary_window, text=x[1])
             lbl1.place(x = 20, y = yIncrement)
 
-            lbl2 = tk.Label(secondary_window, text=x[1])
+            lbl2 = tk.Label(secondary_window, text=x[2])
             lbl2.place(x = 70, y = yIncrement)
 
-            lbl3 = tk.Label(secondary_window, text=x[2])
+            lbl3 = tk.Label(secondary_window, text=x[3])
             lbl3.place(x = 200, y = yIncrement)
 
-            lbl4 = tk.Label(secondary_window, text=x[3])
+            lbl4 = tk.Label(secondary_window, text=x[4])
             lbl4.place(x = 250, y = yIncrement)
 
             lbl5 = tk.Label(secondary_window, text="dropdown")
@@ -132,7 +132,7 @@ def signin():
     else:
         credentialsrow = tk.Label(root, text = "Credentials match. Signing in!                   ")
         credentialsrow.place(x = 120, y = 110)
-        insertItems()
+        insertItems(user)
 
 def reset():
     cursor.execute("DELETE FROM User")
@@ -155,7 +155,7 @@ cursor = dataBase.cursor()
 # cursor.execute("INSERT INTO User (username, password, firstname, lastname, email) VALUES (%s, %s, %s, %s, %s)", ("jasonk", "password", "jason", "khalili", "jk@yahoo.com"))
 
 # cursor.execute("DROP TABLE Items")
-# cursor.execute("CREATE TABLE Items (title varchar(255), description varchar(255), category varchar(255), price varchar(255), rating varchar(255))")
+# cursor.execute("CREATE TABLE Items (username varchar(255), title varchar(255), description varchar(255), category varchar(255), price varchar(255), rating varchar(255))")
 # cursor.execute("INSERT INTO Items (title, description, category, price, rating) VALUES (%s, %s, %s, %s, %s)", ("test", "asdf", "asdf, asdf", "5000", ""))
 
 cursor.execute("SELECT * FROM User")
