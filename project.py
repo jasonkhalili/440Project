@@ -11,6 +11,11 @@ from tkinter import *
 
 def insertItems(username):
     def updateItems():
+        def handleReview():
+            reviewText = review.get()
+
+            cursor.execute(f"UPDATE Items SET rating='{reviewText}' WHERE title='{title}'")
+        
         searchTerm = searchBox.get()
         title = itemTitle.get()
         description = itemDescription.get()
@@ -41,8 +46,24 @@ def insertItems(username):
                 lbl4 = tk.Label(secondary_window, text=x[4])
                 lbl4.place(x = 250, y = yIncrement)
 
-                lbl5 = tk.Label(secondary_window, text="dropdown")
-                lbl5.place(x = 300, y = yIncrement)
+                options = [
+                    "Excellent",
+                    "Good",
+                    "Fair",
+                    "Poor"
+                ]
+
+                clicked = StringVar()
+                clicked.set("Excellent")
+                drop = OptionMenu(secondary_window, clicked, *options)
+                drop.place(x = 300, y = yIncrement)
+
+                review = tk.Entry(secondary_window, width = 50)
+                review.place(x = 400, y = yIncrement, width = 100)
+
+                reviewSubmit = tk.Button(secondary_window, text ="Submit Review",
+                      bg ='blue', fg= 'white', command = handleReview)
+                reviewSubmit.place(x = 500, y = yIncrement, width = 55)
 
                 yIncrement += 30
         else:
@@ -66,8 +87,24 @@ def insertItems(username):
                 lbl4 = tk.Label(secondary_window, text=x[4])
                 lbl4.place(x = 250, y = yIncrement)
 
-                lbl5 = tk.Label(secondary_window, text="dropdown")
-                lbl5.place(x = 300, y = yIncrement)
+                options = [
+                    "Excellent",
+                    "Good",
+                    "Fair",
+                    "Poor"
+                ]
+
+                clicked = StringVar()
+                clicked.set("Excellent")
+                drop = OptionMenu(secondary_window, clicked, *options)
+                drop.place(x = 300, y = yIncrement)
+
+                review = tk.Entry(secondary_window, width = 50)
+                review.place(x = 400, y = yIncrement, width = 100)
+
+                reviewSubmit = tk.Button(secondary_window, text ="Submit Review",
+                      bg ='blue', fg= 'white', command = handleReview)
+                reviewSubmit.place(x = 500, y = yIncrement, width = 55)
 
                 yIncrement += 30
 
@@ -100,7 +137,7 @@ def insertItems(username):
     itemsubmit.place(x = 400, y = 140, width = 55)
 
     searchLabel = tk.Label(root, text ="Search Category:", )
-    searchLabel.place(x = 300, y = 160)
+    searchLabel.place(x = 300, y = 190)
     
     searchBox = tk.Entry(root, width = 35)
     searchBox.place(x = 400, y = 190, width = 100)
