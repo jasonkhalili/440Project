@@ -11,38 +11,65 @@ from tkinter import *
 
 def insertItems(username):
     def updateItems():
+        searchTerm = searchBox.get()
         title = itemTitle.get()
         description = itemDescription.get()
         category = itemCategory.get()
         price = itemPrice.get()
 
-        cursor.execute("INSERT INTO Items (username, title, description, category, price, rating) VALUES (%s, %s, %s, %s, %s, %s)", (username, title, description, category, price, ""))
-        dataBase.commit()
+        if (searchTerm == ""):       
+            cursor.execute("INSERT INTO Items (username, title, description, category, price, rating) VALUES (%s, %s, %s, %s, %s, %s)", (username, title, description, category, price, ""))
+            dataBase.commit()
 
-        secondary_window = tk.Toplevel()
-        secondary_window.title("List of Items")
-        secondary_window.config(width=1600, height=400)
+            secondary_window = tk.Toplevel()
+            secondary_window.title("List of Items")
+            secondary_window.config(width=1600, height=400)
 
-        cursor.execute("SELECT * FROM Items")
-        yIncrement = 20
+            cursor.execute("SELECT * FROM Items")
+            yIncrement = 20
 
-        for x in cursor:
-            lbl1 = tk.Label(secondary_window, text=x[1])
-            lbl1.place(x = 20, y = yIncrement)
+            for x in cursor:
+                lbl1 = tk.Label(secondary_window, text=x[1])
+                lbl1.place(x = 20, y = yIncrement)
 
-            lbl2 = tk.Label(secondary_window, text=x[2])
-            lbl2.place(x = 70, y = yIncrement)
+                lbl2 = tk.Label(secondary_window, text=x[2])
+                lbl2.place(x = 70, y = yIncrement)
 
-            lbl3 = tk.Label(secondary_window, text=x[3])
-            lbl3.place(x = 200, y = yIncrement)
+                lbl3 = tk.Label(secondary_window, text=x[3])
+                lbl3.place(x = 200, y = yIncrement)
 
-            lbl4 = tk.Label(secondary_window, text=x[4])
-            lbl4.place(x = 250, y = yIncrement)
+                lbl4 = tk.Label(secondary_window, text=x[4])
+                lbl4.place(x = 250, y = yIncrement)
 
-            lbl5 = tk.Label(secondary_window, text="dropdown")
-            lbl5.place(x = 300, y = yIncrement)
+                lbl5 = tk.Label(secondary_window, text="dropdown")
+                lbl5.place(x = 300, y = yIncrement)
 
-            yIncrement += 30
+                yIncrement += 30
+        else:
+            secondary_window = tk.Toplevel()
+            secondary_window.title("List of Items")
+            secondary_window.config(width=1600, height=400)
+
+            cursor.execute(f"SELECT * FROM Items WHERE category LIKE '%{searchTerm}%'")
+            yIncrement = 20
+
+            for x in cursor:
+                lbl1 = tk.Label(secondary_window, text=x[1])
+                lbl1.place(x = 20, y = yIncrement)
+
+                lbl2 = tk.Label(secondary_window, text=x[2])
+                lbl2.place(x = 70, y = yIncrement)
+
+                lbl3 = tk.Label(secondary_window, text=x[3])
+                lbl3.place(x = 200, y = yIncrement)
+
+                lbl4 = tk.Label(secondary_window, text=x[4])
+                lbl4.place(x = 250, y = yIncrement)
+
+                lbl5 = tk.Label(secondary_window, text="dropdown")
+                lbl5.place(x = 300, y = yIncrement)
+
+                yIncrement += 30
 
     lbltitle = tk.Label(root, text ="Title:", )
     lbltitle.place(x = 300, y = 20)
@@ -71,6 +98,16 @@ def insertItems(username):
     itemsubmit = tk.Button(root, text ="Post Item",
                       bg ='blue', fg= 'white', command = updateItems)
     itemsubmit.place(x = 400, y = 140, width = 55)
+
+    searchLabel = tk.Label(root, text ="Search Category:", )
+    searchLabel.place(x = 300, y = 160)
+    
+    searchBox = tk.Entry(root, width = 35)
+    searchBox.place(x = 400, y = 190, width = 100)
+
+    searchSubmit = tk.Button(root, text ="Search",
+                      bg ='blue', fg= 'white', command = updateItems)
+    searchSubmit.place(x = 400, y = 220, width = 55)
 
 def register():
     user = regUsername.get()
