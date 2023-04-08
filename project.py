@@ -11,15 +11,18 @@ from datetime import datetime
 
 
 def insertItems(username):
+    dropdowns = []
     reviews = []
 
     def updateItems():
         def handleReview():
             i = 1
+            t = datetime.now()
             for review in reviews:
                 if (review.get()):
                     r = review.get()
-                    cursor.execute(f"UPDATE Items SET rating='{r}' WHERE id='{i}'")
+                    cursor.execute(f"INSERT INTO Reviews (id, username, rating, ratingText, date) VALUES (%s, %s, %s, %s, %s)", (i, username, dropdowns[i-1].get(), r, t))
+                    # cursor.execute(f"UPDATE Items SET rating='{r}' WHERE id='{i}'")
                     dataBase.commit()
 
                 i += 1;    
@@ -73,6 +76,7 @@ def insertItems(username):
                 reviewText.place(x = 400, y = yIncrement, width = 100)
 
                 reviews.append(reviewText)
+                dropdowns.append(clicked)
 
                 reviewSubmit = tk.Button(secondary_window, text ="Submit Review",
                       bg ='blue', fg= 'white', command = handleReview)
@@ -245,6 +249,8 @@ cursor = dataBase.cursor()
 # cursor.execute("DROP TABLE Items")
 # cursor.execute("CREATE TABLE Items (id INT AUTO_INCREMENT PRIMARY KEY, username varchar(255), title varchar(255), description varchar(255), category varchar(255), price varchar(255), rating varchar(255), date DATE)")
 # cursor.execute("INSERT INTO Items (title, description, category, price, rating) VALUES (%s, %s, %s, %s, %s)", ("test", "asdf", "asdf, asdf", "5000", ""))
+
+# cursor.execute("CREATE TABLE Reviews (id INT, username varchar(255), rating varchar(255), ratingText varchar(255), date Date)")
 
 cursor.execute("SELECT * FROM User")
 
