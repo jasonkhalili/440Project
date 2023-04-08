@@ -10,11 +10,20 @@ from tkinter import *
 
 
 def insertItems(username):
+    reviews = []
+
     def updateItems():
         def handleReview():
-            reviewText = review.get()
+            i = 1
+            for review in reviews:
+                if (review.get()):
+                    r = review.get()
+                    cursor.execute(f"UPDATE Items SET rating='{r}' WHERE id='{i}'")
+                    dataBase.commit()
 
-            cursor.execute(f"UPDATE Items SET rating='{reviewText}' WHERE title='{title}'")
+                i += 1;    
+
+
         
         searchTerm = searchBox.get()
         title = itemTitle.get()
@@ -34,16 +43,16 @@ def insertItems(username):
             yIncrement = 20
 
             for x in cursor:
-                lbl1 = tk.Label(secondary_window, text=x[1])
+                lbl1 = tk.Label(secondary_window, text=x[2])
                 lbl1.place(x = 20, y = yIncrement)
 
-                lbl2 = tk.Label(secondary_window, text=x[2])
+                lbl2 = tk.Label(secondary_window, text=x[3])
                 lbl2.place(x = 70, y = yIncrement)
 
-                lbl3 = tk.Label(secondary_window, text=x[3])
+                lbl3 = tk.Label(secondary_window, text=x[4])
                 lbl3.place(x = 200, y = yIncrement)
 
-                lbl4 = tk.Label(secondary_window, text=x[4])
+                lbl4 = tk.Label(secondary_window, text=x[5])
                 lbl4.place(x = 250, y = yIncrement)
 
                 options = [
@@ -58,8 +67,10 @@ def insertItems(username):
                 drop = OptionMenu(secondary_window, clicked, *options)
                 drop.place(x = 300, y = yIncrement)
 
-                review = tk.Entry(secondary_window, width = 50)
-                review.place(x = 400, y = yIncrement, width = 100)
+                reviewText = tk.Entry(secondary_window, width = 50)
+                reviewText.place(x = 400, y = yIncrement, width = 100)
+
+                reviews.append(reviewText)
 
                 reviewSubmit = tk.Button(secondary_window, text ="Submit Review",
                       bg ='blue', fg= 'white', command = handleReview)
@@ -230,7 +241,7 @@ cursor = dataBase.cursor()
 # cursor.execute("INSERT INTO User (username, password, firstname, lastname, email) VALUES (%s, %s, %s, %s, %s)", ("jasonk", "password", "jason", "khalili", "jk@yahoo.com"))
 
 # cursor.execute("DROP TABLE Items")
-# cursor.execute("CREATE TABLE Items (username varchar(255), title varchar(255), description varchar(255), category varchar(255), price varchar(255), rating varchar(255))")
+# cursor.execute("CREATE TABLE Items (id INT AUTO_INCREMENT PRIMARY KEY, username varchar(255), title varchar(255), description varchar(255), category varchar(255), price varchar(255), rating varchar(255))")
 # cursor.execute("INSERT INTO Items (title, description, category, price, rating) VALUES (%s, %s, %s, %s, %s)", ("test", "asdf", "asdf, asdf", "5000", ""))
 
 cursor.execute("SELECT * FROM User")
