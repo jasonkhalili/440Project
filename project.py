@@ -63,7 +63,7 @@ def insertItems(username):
 
                 reviewSubmit = tk.Button(secondary_window, text ="Submit Review",
                       bg ='blue', fg= 'white', command = handleReview)
-                reviewSubmit.place(x = 500, y = yIncrement, width = 55)
+                reviewSubmit.place(x = 500, y = yIncrement, width = 100)
 
                 yIncrement += 30
         else:
