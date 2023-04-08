@@ -7,6 +7,7 @@ import mysql.connector
 import tkinter as tk
 from mysql.connector import Error
 from tkinter import *
+from datetime import datetime
 
 
 def insertItems(username):
@@ -31,8 +32,9 @@ def insertItems(username):
         category = itemCategory.get()
         price = itemPrice.get()
 
-        if (searchTerm == ""):       
-            cursor.execute("INSERT INTO Items (username, title, description, category, price, rating) VALUES (%s, %s, %s, %s, %s, %s)", (username, title, description, category, price, ""))
+        if (searchTerm == ""):
+            now = datetime.now()       
+            cursor.execute("INSERT INTO Items (username, title, description, category, price, rating, date) VALUES (%s, %s, %s, %s, %s, %s, %s)", (username, title, description, category, price, "", now))
             dataBase.commit()
 
             secondary_window = tk.Toplevel()
@@ -241,7 +243,7 @@ cursor = dataBase.cursor()
 # cursor.execute("INSERT INTO User (username, password, firstname, lastname, email) VALUES (%s, %s, %s, %s, %s)", ("jasonk", "password", "jason", "khalili", "jk@yahoo.com"))
 
 # cursor.execute("DROP TABLE Items")
-# cursor.execute("CREATE TABLE Items (id INT AUTO_INCREMENT PRIMARY KEY, username varchar(255), title varchar(255), description varchar(255), category varchar(255), price varchar(255), rating varchar(255))")
+# cursor.execute("CREATE TABLE Items (id INT AUTO_INCREMENT PRIMARY KEY, username varchar(255), title varchar(255), description varchar(255), category varchar(255), price varchar(255), rating varchar(255), date DATE)")
 # cursor.execute("INSERT INTO Items (title, description, category, price, rating) VALUES (%s, %s, %s, %s, %s)", ("test", "asdf", "asdf, asdf", "5000", ""))
 
 cursor.execute("SELECT * FROM User")
