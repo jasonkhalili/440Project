@@ -52,13 +52,13 @@ def insertItems(username):
                 lbl1.place(x = 20, y = yIncrement)
 
                 lbl2 = tk.Label(secondary_window, text=x[3])
-                lbl2.place(x = 70, y = yIncrement)
+                lbl2.place(x = 150, y = yIncrement)
 
                 lbl3 = tk.Label(secondary_window, text=x[4])
-                lbl3.place(x = 200, y = yIncrement)
+                lbl3.place(x = 250, y = yIncrement)
 
                 lbl4 = tk.Label(secondary_window, text=x[5])
-                lbl4.place(x = 250, y = yIncrement)
+                lbl4.place(x = 300, y = yIncrement)
 
                 options = [
                     "Excellent",
@@ -86,7 +86,7 @@ def insertItems(username):
         else:
             secondary_window = tk.Toplevel()
             secondary_window.title("List of Items")
-            secondary_window.config(width=1600, height=400)
+            secondary_window.config(width=1600, height=1000)
 
             cursor.execute(f"SELECT * FROM Items WHERE category LIKE '%{searchTerm}%'")
             yIncrement = 20
@@ -96,13 +96,13 @@ def insertItems(username):
                 lbl1.place(x = 20, y = yIncrement)
 
                 lbl2 = tk.Label(secondary_window, text=x[2])
-                lbl2.place(x = 70, y = yIncrement)
+                lbl2.place(x = 150, y = yIncrement)
 
                 lbl3 = tk.Label(secondary_window, text=x[3])
-                lbl3.place(x = 200, y = yIncrement)
+                lbl3.place(x = 250, y = yIncrement)
 
                 lbl4 = tk.Label(secondary_window, text=x[4])
-                lbl4.place(x = 250, y = yIncrement)
+                lbl4.place(x = 300, y = yIncrement)
 
                 options = [
                     "Excellent",
