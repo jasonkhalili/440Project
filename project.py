@@ -17,7 +17,7 @@ def insertItems(username):
     def updateItems():
         def handleReview():
             i = 1
-            t = datetime.now()
+            t = datetime.today()
             for review in reviews:
                 if (review.get()):
                     r = review.get()
@@ -27,7 +27,14 @@ def insertItems(username):
 
                 i += 1;    
 
+        n = datetime.today().strftime("%Y-%m-%d")
+        cursor.execute(f"SELECT * FROM Items WHERE username='{username}' AND date='{n}'")
+        cursor.fetchall()
 
+        if(cursor.rowcount >= 3):
+            lblp = tk.Label(root, text = "User has already submitted three items today             ")
+            lblp.place(x = 400, y = 170)
+            return
         
         searchTerm = searchBox.get()
         title = itemTitle.get()
@@ -36,7 +43,7 @@ def insertItems(username):
         price = itemPrice.get()
 
         if (searchTerm == ""):
-            now = datetime.now()       
+            now = datetime.today()       
             cursor.execute("INSERT INTO Items (username, title, description, category, price, rating, date) VALUES (%s, %s, %s, %s, %s, %s, %s)", (username, title, description, category, price, "", now))
             dataBase.commit()
 
@@ -154,14 +161,14 @@ def insertItems(username):
     itemsubmit.place(x = 400, y = 140, width = 55)
 
     searchLabel = tk.Label(root, text ="Search Category:", )
-    searchLabel.place(x = 300, y = 190)
+    searchLabel.place(x = 300, y = 200)
     
     searchBox = tk.Entry(root, width = 35)
-    searchBox.place(x = 400, y = 190, width = 100)
+    searchBox.place(x = 400, y = 200, width = 100)
 
     searchSubmit = tk.Button(root, text ="Search",
                       bg ='blue', fg= 'white', command = updateItems)
-    searchSubmit.place(x = 400, y = 220, width = 55)
+    searchSubmit.place(x = 400, y = 230, width = 55)
 
 def register():
     user = regUsername.get()
@@ -228,6 +235,7 @@ def signin():
 
 def reset():
     cursor.execute("DELETE FROM User")
+    cursor.execute("DELETE FROM Items")
     dataBase.commit()
 
 try:
