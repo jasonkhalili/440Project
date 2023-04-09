@@ -30,7 +30,7 @@ def insertItems(username):
                         lblp.place(x = 400, y = 0)
                         return
                     
-                    if (usernames[i] - 1 == username):
+                    if (usernames[i-1] == username):
                         lblp = tk.Label(secondary_window, text = "Can't review your own item.                                                  ")
                         lblp.place(x = 400, y = 0)
                         return
@@ -40,6 +40,8 @@ def insertItems(username):
                     r = review.get()
                     cursor.execute(f"INSERT INTO Reviews (id, username, rating, ratingText, date) VALUES (%s, %s, %s, %s, %s)", (i, username, dropdowns[i-1].get(), r, t))
                     dataBase.commit()
+                    lblp = tk.Label(secondary_window, text = "Added review.                                                  ")
+                    lblp.place(x = 400, y = 0)
 
                 i += 1;    
 
@@ -146,8 +148,12 @@ def insertItems(username):
                 drop = OptionMenu(secondary_window, clicked, *options)
                 drop.place(x = 500, y = yIncrement)
 
-                review = tk.Entry(secondary_window, width = 50)
-                review.place(x = 600, y = yIncrement, width = 100)
+                reviewText = tk.Entry(secondary_window, width = 50)
+                reviewText.place(x = 600, y = yIncrement, width = 100)
+
+                reviews.append(reviewText)
+                dropdowns.append(clicked)
+                usernames.append(x[1])
 
                 reviewSubmit = tk.Button(secondary_window, text ="Submit Review",
                       bg ='blue', fg= 'white', command = handleReview)
