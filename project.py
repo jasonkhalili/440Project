@@ -13,6 +13,7 @@ from datetime import datetime
 def insertItems(username):
     dropdowns = []
     reviews = []
+    usernames = []
 
     def updateItems():
         def handleReview():
@@ -28,23 +29,21 @@ def insertItems(username):
                         lblp = tk.Label(secondary_window, text = "User has already submitted three reviews today. Review not submitted.            ")
                         lblp.place(x = 400, y = 0)
                         return
-        
+                    
+                    if (usernames[i] - 1 == username):
+                        lblp = tk.Label(secondary_window, text = "Can't review your own item.                                                  ")
+                        lblp.place(x = 400, y = 0)
+                        return
+
+
 
                     r = review.get()
                     cursor.execute(f"INSERT INTO Reviews (id, username, rating, ratingText, date) VALUES (%s, %s, %s, %s, %s)", (i, username, dropdowns[i-1].get(), r, t))
-                    # cursor.execute(f"UPDATE Items SET rating='{r}' WHERE id='{i}'")
                     dataBase.commit()
 
                 i += 1;    
 
         n = datetime.today().strftime("%Y-%m-%d")
-        cursor.execute(f"SELECT * FROM Items WHERE username='{username}' AND date='{n}'")
-        cursor.fetchall()
-
-        if(cursor.rowcount >= 3):
-            lblp = tk.Label(root, text = "User has already submitted three items today             ")
-            lblp.place(x = 400, y = 170)
-            return
         
         searchTerm = searchBox.get()
         title = itemTitle.get()
@@ -53,29 +52,39 @@ def insertItems(username):
         price = itemPrice.get()
 
         if (searchTerm == ""):
-            now = datetime.today()       
+            cursor.execute(f"SELECT * FROM Items WHERE username='{username}' AND date='{n}'")
+            cursor.fetchall()
+
+            if(cursor.rowcount >= 3):
+                lblp = tk.Label(root, text = "User has already submitted three items today             ")
+                lblp.place(x = 400, y = 170)
+                return
+            
             cursor.execute("INSERT INTO Items (username, title, description, category, price, rating, date) VALUES (%s, %s, %s, %s, %s, %s, %s)", (username, title, description, category, price, "", now))
             dataBase.commit()
 
             secondary_window = tk.Toplevel()
             secondary_window.title("List of Items")
-            secondary_window.config(width=1600, height=400)
+            secondary_window.config(width=1600, height=1000)
 
             cursor.execute("SELECT * FROM Items")
             yIncrement = 20
 
             for x in cursor:
-                lbl1 = tk.Label(secondary_window, text=x[2])
+                lbl1 = tk.Label(secondary_window, text=x[1])
                 lbl1.place(x = 20, y = yIncrement)
 
-                lbl2 = tk.Label(secondary_window, text=x[3])
+                lbl2 = tk.Label(secondary_window, text=x[2])
                 lbl2.place(x = 150, y = yIncrement)
 
-                lbl3 = tk.Label(secondary_window, text=x[4])
+                lbl3 = tk.Label(secondary_window, text=x[3])
                 lbl3.place(x = 250, y = yIncrement)
 
-                lbl4 = tk.Label(secondary_window, text=x[5])
-                lbl4.place(x = 300, y = yIncrement)
+                lbl4 = tk.Label(secondary_window, text=x[4])
+                lbl4.place(x = 350, y = yIncrement)
+
+                lbl5 = tk.Label(secondary_window, text=x[5])
+                lbl5.place(x = 450, y = yIncrement)
 
                 options = [
                     "Excellent",
@@ -87,17 +96,18 @@ def insertItems(username):
                 clicked = StringVar()
                 clicked.set("Excellent")
                 drop = OptionMenu(secondary_window, clicked, *options)
-                drop.place(x = 300, y = yIncrement)
+                drop.place(x = 500, y = yIncrement)
 
                 reviewText = tk.Entry(secondary_window, width = 50)
-                reviewText.place(x = 400, y = yIncrement, width = 100)
+                reviewText.place(x = 600, y = yIncrement, width = 100)
 
                 reviews.append(reviewText)
                 dropdowns.append(clicked)
+                usernames.append(x[1])
 
                 reviewSubmit = tk.Button(secondary_window, text ="Submit Review",
                       bg ='blue', fg= 'white', command = handleReview)
-                reviewSubmit.place(x = 500, y = yIncrement, width = 100)
+                reviewSubmit.place(x = 700, y = yIncrement, width = 100)
 
                 yIncrement += 30
         else:
@@ -119,7 +129,10 @@ def insertItems(username):
                 lbl3.place(x = 250, y = yIncrement)
 
                 lbl4 = tk.Label(secondary_window, text=x[4])
-                lbl4.place(x = 300, y = yIncrement)
+                lbl4.place(x = 350, y = yIncrement)
+
+                lbl4 = tk.Label(secondary_window, text=x[5])
+                lbl4.place(x = 450, y = yIncrement)
 
                 options = [
                     "Excellent",
@@ -131,14 +144,14 @@ def insertItems(username):
                 clicked = StringVar()
                 clicked.set("Excellent")
                 drop = OptionMenu(secondary_window, clicked, *options)
-                drop.place(x = 300, y = yIncrement)
+                drop.place(x = 500, y = yIncrement)
 
                 review = tk.Entry(secondary_window, width = 50)
-                review.place(x = 400, y = yIncrement, width = 100)
+                review.place(x = 600, y = yIncrement, width = 100)
 
                 reviewSubmit = tk.Button(secondary_window, text ="Submit Review",
                       bg ='blue', fg= 'white', command = handleReview)
-                reviewSubmit.place(x = 500, y = yIncrement, width = 55)
+                reviewSubmit.place(x = 700, y = yIncrement, width = 100)
 
                 yIncrement += 30
 
