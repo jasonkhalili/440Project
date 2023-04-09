@@ -60,7 +60,7 @@ def insertItems(username):
                 lblp.place(x = 400, y = 170)
                 return
             
-            cursor.execute("INSERT INTO Items (username, title, description, category, price, rating, date) VALUES (%s, %s, %s, %s, %s, %s, %s)", (username, title, description, category, price, "", now))
+            cursor.execute("INSERT INTO Items (username, title, description, category, price, rating, date) VALUES (%s, %s, %s, %s, %s, %s, %s)", (username, title, description, category, price, "", n))
             dataBase.commit()
 
             secondary_window = tk.Toplevel()
