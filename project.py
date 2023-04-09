@@ -20,6 +20,16 @@ def insertItems(username):
             t = datetime.today()
             for review in reviews:
                 if (review.get()):
+                    o = datetime.today().strftime("%Y-%m-%d")
+                    cursor.execute(f"SELECT * FROM Reviews WHERE username='{username}' AND date='{o}'")
+                    cursor.fetchall()
+
+                    if(cursor.rowcount >= 3):
+                        lblp = tk.Label(secondary_window, text = "User has already submitted three reviews today. Review not submitted.            ")
+                        lblp.place(x = 400, y = 0)
+                        return
+        
+
                     r = review.get()
                     cursor.execute(f"INSERT INTO Reviews (id, username, rating, ratingText, date) VALUES (%s, %s, %s, %s, %s)", (i, username, dropdowns[i-1].get(), r, t))
                     # cursor.execute(f"UPDATE Items SET rating='{r}' WHERE id='{i}'")
