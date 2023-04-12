@@ -62,7 +62,7 @@ def insertItems(username):
                 lblp.place(x = 400, y = 170)
                 return
             
-            cursor.execute("INSERT INTO Items (username, title, description, category, price, rating, date) VALUES (%s, %s, %s, %s, %s, %s, %s)", (username, title, description, category, price, "", n))
+            cursor.execute("INSERT INTO Items (username, title, description, category, price, date) VALUES (%s, %s, %s, %s, %s, %s)", (username, title, description, category, price, n))
             dataBase.commit()
 
             secondary_window = tk.Toplevel()
@@ -265,9 +265,17 @@ def signin():
 def reset():
     cursor.execute("DROP TABLE IF EXISTS User")
     cursor.execute("DROP TABLE IF EXISTS Items")
+    cursor.execute("DROP TABLE IF EXISTS Reviews")
 
     cursor.execute("CREATE TABLE IF NOT EXISTS User (username varchar(255), password varchar(255), firstName char(255), lastName char(255), email varchar(255))")
-    cursor.execute("CREATE TABLE IF NOT EXISTS Items (id INT AUTO_INCREMENT PRIMARY KEY, username varchar(255), title varchar(255), description varchar(255), category varchar(255), price varchar(255), rating varchar(255), date DATE)")
+    cursor.execute("CREATE TABLE IF NOT EXISTS Items (id INT AUTO_INCREMENT PRIMARY KEY, username varchar(255), title varchar(255), description varchar(255), category varchar(255), price varchar(255), date DATE)")
+    cursor.execute("CREATE TABLE Reviews (id INT, username varchar(255), rating varchar(255), ratingText varchar(255), date Date)")
+
+    cursor.execute("INSERT INTO User (username, password, firstname, lastname, email) VALUES (%s, %s, %s, %s, %s)", ("jasonk", "password", "Jason", "Khalili", "jk@yahoo.com"))
+    cursor.execute("INSERT INTO User (username, password, firstname, lastname, email) VALUES (%s, %s, %s, %s, %s)", ("johnm", "blueberry", "John", "Myers", "johnm@gmail.com"))
+    cursor.execute("INSERT INTO User (username, password, firstname, lastname, email) VALUES (%s, %s, %s, %s, %s)", ("erniejohnson", "insidethenba", "Ernie", "Johnson", "erniejohnsonjr@yahoo.com"))
+    cursor.execute("INSERT INTO User (username, password, firstname, lastname, email) VALUES (%s, %s, %s, %s, %s)", ("kobeb24", "basketball", "Kobe", "Bryant", "kb24@outlook.com"))
+    cursor.execute("INSERT INTO User (username, password, firstname, lastname, email) VALUES (%s, %s, %s, %s, %s)", ("mahdiebrahimi", "comp440", "Mahdi", "Ebrahimi", "mahdiebrahimi@csun.edu"))
 
     dataBase.commit()
 
@@ -284,13 +292,9 @@ except Error as e:
 
 cursor = dataBase.cursor()
 
-# cursor.execute("INSERT INTO User (username, password, firstname, lastname, email) VALUES (%s, %s, %s, %s, %s)", ("jasonk", "password", "jason", "khalili", "jk@yahoo.com"))
-# cursor.execute("DROP TABLE Users")
 
 # cursor.execute("INSERT INTO Items (title, description, category, price, rating) VALUES (%s, %s, %s, %s, %s)", ("test", "asdf", "asdf, asdf", "5000", ""))
-# cursor.execute("DROP TABLE Items")
 
-# cursor.execute("CREATE TABLE Reviews (id INT, username varchar(255), rating varchar(255), ratingText varchar(255), date Date)")
 
 cursor.execute("SELECT * FROM User")
 
