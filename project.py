@@ -263,8 +263,12 @@ def signin():
         insertItems(user)
 
 def reset():
-    cursor.execute("DELETE FROM User")
-    cursor.execute("DELETE FROM Items")
+    cursor.execute("DROP TABLE IF EXISTS User")
+    cursor.execute("DROP TABLE IF EXISTS Items")
+
+    cursor.execute("CREATE TABLE IF NOT EXISTS User (username varchar(255), password varchar(255), firstName char(255), lastName char(255), email varchar(255))")
+    cursor.execute("CREATE TABLE IF NOT EXISTS Items (id INT AUTO_INCREMENT PRIMARY KEY, username varchar(255), title varchar(255), description varchar(255), category varchar(255), price varchar(255), rating varchar(255), date DATE)")
+
     dataBase.commit()
 
 try:
@@ -280,12 +284,11 @@ except Error as e:
 
 cursor = dataBase.cursor()
 
-# cursor.execute("CREATE TABLE User (username varchar(255), password varchar(255), firstName char(255), lastName char(255), email varchar(255))")
 # cursor.execute("INSERT INTO User (username, password, firstname, lastname, email) VALUES (%s, %s, %s, %s, %s)", ("jasonk", "password", "jason", "khalili", "jk@yahoo.com"))
+# cursor.execute("DROP TABLE Users")
 
-# cursor.execute("DROP TABLE Items")
-# cursor.execute("CREATE TABLE Items (id INT AUTO_INCREMENT PRIMARY KEY, username varchar(255), title varchar(255), description varchar(255), category varchar(255), price varchar(255), rating varchar(255), date DATE)")
 # cursor.execute("INSERT INTO Items (title, description, category, price, rating) VALUES (%s, %s, %s, %s, %s)", ("test", "asdf", "asdf, asdf", "5000", ""))
+# cursor.execute("DROP TABLE Items")
 
 # cursor.execute("CREATE TABLE Reviews (id INT, username varchar(255), rating varchar(255), ratingText varchar(255), date Date)")
 
@@ -357,7 +360,7 @@ registerbtn = tk.Button(root, text = "Register",
                         bg = 'blue', fg='white', command = register)
 registerbtn.place(x = 150, y = 330, width = 55)
 
-resetbutton = tk.Button(root, text = "Reset Database",
+resetbutton = tk.Button(root, text = "Initialize Database",
                         bg = 'blue', fg='white', command = reset)
 resetbutton.place(x = 100, y = 390, width = 155)
 
