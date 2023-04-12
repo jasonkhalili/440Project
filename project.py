@@ -83,10 +83,10 @@ def insertItems(username):
                 lbl3.place(x = 250, y = yIncrement)
 
                 lbl4 = tk.Label(secondary_window, text=x[4])
-                lbl4.place(x = 350, y = yIncrement)
+                lbl4.place(x = 400, y = yIncrement)
 
                 lbl5 = tk.Label(secondary_window, text=x[5])
-                lbl5.place(x = 450, y = yIncrement)
+                lbl5.place(x = 500, y = yIncrement)
 
                 options = [
                     "Excellent",
@@ -98,10 +98,10 @@ def insertItems(username):
                 clicked = StringVar()
                 clicked.set("Excellent")
                 drop = OptionMenu(secondary_window, clicked, *options)
-                drop.place(x = 500, y = yIncrement)
+                drop.place(x = 550, y = yIncrement)
 
                 reviewText = tk.Entry(secondary_window, width = 50)
-                reviewText.place(x = 600, y = yIncrement, width = 100)
+                reviewText.place(x = 650, y = yIncrement, width = 100)
 
                 reviews.append(reviewText)
                 dropdowns.append(clicked)
@@ -109,7 +109,7 @@ def insertItems(username):
 
                 reviewSubmit = tk.Button(secondary_window, text ="Submit Review",
                       bg ='blue', fg= 'white', command = handleReview)
-                reviewSubmit.place(x = 700, y = yIncrement, width = 100)
+                reviewSubmit.place(x = 750, y = yIncrement, width = 100)
 
                 yIncrement += 30
         else:
@@ -131,10 +131,10 @@ def insertItems(username):
                 lbl3.place(x = 250, y = yIncrement)
 
                 lbl4 = tk.Label(secondary_window, text=x[4])
-                lbl4.place(x = 350, y = yIncrement)
+                lbl4.place(x = 400, y = yIncrement)
 
                 lbl4 = tk.Label(secondary_window, text=x[5])
-                lbl4.place(x = 450, y = yIncrement)
+                lbl4.place(x = 500, y = yIncrement)
 
                 options = [
                     "Excellent",
@@ -146,10 +146,10 @@ def insertItems(username):
                 clicked = StringVar()
                 clicked.set("Excellent")
                 drop = OptionMenu(secondary_window, clicked, *options)
-                drop.place(x = 500, y = yIncrement)
+                drop.place(x = 550, y = yIncrement)
 
                 reviewText = tk.Entry(secondary_window, width = 50)
-                reviewText.place(x = 600, y = yIncrement, width = 100)
+                reviewText.place(x = 650, y = yIncrement, width = 100)
 
                 reviews.append(reviewText)
                 dropdowns.append(clicked)
@@ -157,7 +157,7 @@ def insertItems(username):
 
                 reviewSubmit = tk.Button(secondary_window, text ="Submit Review",
                       bg ='blue', fg= 'white', command = handleReview)
-                reviewSubmit.place(x = 700, y = yIncrement, width = 100)
+                reviewSubmit.place(x = 750, y = yIncrement, width = 100)
 
                 yIncrement += 30
 
@@ -277,6 +277,19 @@ def reset():
     cursor.execute("INSERT INTO User (username, password, firstname, lastname, email) VALUES (%s, %s, %s, %s, %s)", ("kobeb24", "basketball", "Kobe", "Bryant", "kb24@outlook.com"))
     cursor.execute("INSERT INTO User (username, password, firstname, lastname, email) VALUES (%s, %s, %s, %s, %s)", ("mahdiebrahimi", "comp440", "Mahdi", "Ebrahimi", "mahdiebrahimi@csun.edu"))
 
+    cursor.execute("INSERT INTO Items (username, title, description, category, price, date) VALUES (%s, %s, %s, %s, %s, %s)", ("jasonk", "iPhone 15", "Brand New Iphone 15", "phone", "1,000", datetime.now()))
+    cursor.execute("INSERT INTO Items (username, title, description, category, price, date) VALUES (%s, %s, %s, %s, %s, %s)", ("johnm", "iPhone 15", "Used Samsung Galaxy S23", "phone", "800", datetime.now()))
+    cursor.execute("INSERT INTO Items (username, title, description, category, price, date) VALUES (%s, %s, %s, %s, %s, %s)", ("erniejohnson", "Herman Miller Aeron Chair", "Aeron chair with full lumbar support", "chair", "1,200", datetime.now()))
+    cursor.execute("INSERT INTO Items (username, title, description, category, price, date) VALUES (%s, %s, %s, %s, %s, %s)", ("kobeb24", "Generic Chair", "Chair from Office Depot", "chair", "200", datetime.now()))
+    cursor.execute("INSERT INTO Items (username, title, description, category, price, date) VALUES (%s, %s, %s, %s, %s, %s)", ("mahdiebrahimi", "Crystal Geyser 12oz Water", "Refreshing water", "beverage", "10", datetime.now()))
+
+    cursor.execute("INSERT INTO Reviews (id, username, rating, ratingText, date) VALUES (%s, %s, %s, %s, %s)", (1, "jasonk", "Excellent", "This phone is too expensive.", datetime.now()))
+    cursor.execute("INSERT INTO Reviews (id, username, rating, ratingText, date) VALUES (%s, %s, %s, %s, %s)", (2, "johnm", "Poor", "Good phone, wish the ui was better.", datetime.now()))
+    cursor.execute("INSERT INTO Reviews (id, username, rating, ratingText, date) VALUES (%s, %s, %s, %s, %s)", (3, "erniejohnson", "Fair", "Wonderful chair. Fixed my back problems.", datetime.now()))
+    cursor.execute("INSERT INTO Reviews (id, username, rating, ratingText, date) VALUES (%s, %s, %s, %s, %s)", (4, "kobeb24", "Good", "This chair made me lose my ability to walk", datetime.now()))
+    cursor.execute("INSERT INTO Reviews (id, username, rating, ratingText, date) VALUES (%s, %s, %s, %s, %s)", (5, "mahdiebrahimi", "Fair", "Refreshing!!!", datetime.now()))
+
+
     dataBase.commit()
 
 try:
@@ -291,11 +304,6 @@ except Error as e:
     print(f"The error '{e}' occurred")
 
 cursor = dataBase.cursor()
-
-
-# cursor.execute("INSERT INTO Items (title, description, category, price, rating) VALUES (%s, %s, %s, %s, %s)", ("test", "asdf", "asdf, asdf", "5000", ""))
-
-
 cursor.execute("SELECT * FROM User")
 
 for x in cursor:
