@@ -16,9 +16,10 @@ def insertItems(username):
     usernames = []
 
     def updateItems():
-        def handleReview():
+        def handleReview():     
             i = 1
             t = datetime.today()
+            print(reviews)
             for review in reviews:
                 if (review.get()):
                     o = datetime.today().strftime("%Y-%m-%d")
@@ -43,7 +44,8 @@ def insertItems(username):
                     lblp = tk.Label(secondary_window, text = "Added review.                                                  ")
                     lblp.place(x = 400, y = 0)
 
-                i += 1;    
+                i += 1;
+
 
         n = datetime.today().strftime("%Y-%m-%d")
         
@@ -103,9 +105,18 @@ def insertItems(username):
                 reviewText = tk.Entry(secondary_window, width = 50)
                 reviewText.place(x = 650, y = yIncrement, width = 100)
 
-                reviews.append(reviewText)
-                dropdowns.append(clicked)
-                usernames.append(x[1])
+                if len(reviews) == 0:
+                    reviews.append(reviewText)
+                    dropdowns.append(clicked)
+                    usernames.append(x[1])
+                else:
+                    dropdowns.clear()
+                    reviews.clear()
+                    usernames.clear()
+
+                    reviews.append(reviewText)
+                    dropdowns.append(clicked)
+                    usernames.append(x[1])
 
                 reviewSubmit = tk.Button(secondary_window, text ="Submit Review",
                       bg ='blue', fg= 'white', command = handleReview)
@@ -151,9 +162,18 @@ def insertItems(username):
                 reviewText = tk.Entry(secondary_window, width = 50)
                 reviewText.place(x = 650, y = yIncrement, width = 100)
 
-                reviews.append(reviewText)
-                dropdowns.append(clicked)
-                usernames.append(x[1])
+                if len(reviews) == 0:
+                    reviews.append(reviewText)
+                    dropdowns.append(clicked)
+                    usernames.append(x[1])
+                else:
+                    dropdowns.clear()
+                    reviews.clear()
+                    usernames.clear()
+
+                    reviews.append(reviewText)
+                    dropdowns.append(clicked)
+                    usernames.append(x[1])
 
                 reviewSubmit = tk.Button(secondary_window, text ="Submit Review",
                       bg ='blue', fg= 'white', command = handleReview)
@@ -277,13 +297,13 @@ def reset():
     cursor.execute("INSERT INTO User (username, password, firstname, lastname, email) VALUES (%s, %s, %s, %s, %s)", ("kobeb24", "basketball", "Kobe", "Bryant", "kb24@outlook.com"))
     cursor.execute("INSERT INTO User (username, password, firstname, lastname, email) VALUES (%s, %s, %s, %s, %s)", ("mahdiebrahimi", "comp440", "Mahdi", "Ebrahimi", "mahdiebrahimi@csun.edu"))
 
-    cursor.execute("INSERT INTO Items (username, title, description, category, price, date) VALUES (%s, %s, %s, %s, %s, %s)", ("jasonk", "iPhone 15", "Brand New Iphone 15", "phone", "1,000", datetime.now()))
+    cursor.execute("INSERT INTO Items (username, title, description, category, price, date) VALUES (%s, %s, %s, %s, %s, %s)", ("johnm", "iPhone 15", "Brand New Iphone 15", "phone", "1,000", datetime.now()))
     cursor.execute("INSERT INTO Items (username, title, description, category, price, date) VALUES (%s, %s, %s, %s, %s, %s)", ("johnm", "iPhone 15", "Used Samsung Galaxy S23", "phone", "800", datetime.now()))
     cursor.execute("INSERT INTO Items (username, title, description, category, price, date) VALUES (%s, %s, %s, %s, %s, %s)", ("erniejohnson", "Herman Miller Aeron Chair", "Aeron chair with full lumbar support", "chair", "1,200", datetime.now()))
     cursor.execute("INSERT INTO Items (username, title, description, category, price, date) VALUES (%s, %s, %s, %s, %s, %s)", ("kobeb24", "Generic Chair", "Chair from Office Depot", "chair", "200", datetime.now()))
     cursor.execute("INSERT INTO Items (username, title, description, category, price, date) VALUES (%s, %s, %s, %s, %s, %s)", ("mahdiebrahimi", "Crystal Geyser 12oz Water", "Refreshing water", "beverage", "10", datetime.now()))
 
-    cursor.execute("INSERT INTO Reviews (id, username, rating, ratingText, date) VALUES (%s, %s, %s, %s, %s)", (1, "jasonk", "Excellent", "This phone is too expensive.", datetime.now()))
+    cursor.execute("INSERT INTO Reviews (id, username, rating, ratingText, date) VALUES (%s, %s, %s, %s, %s)", (1, "johnm", "Excellent", "This phone is too expensive.", datetime.now()))
     cursor.execute("INSERT INTO Reviews (id, username, rating, ratingText, date) VALUES (%s, %s, %s, %s, %s)", (2, "johnm", "Poor", "Good phone, wish the ui was better.", datetime.now()))
     cursor.execute("INSERT INTO Reviews (id, username, rating, ratingText, date) VALUES (%s, %s, %s, %s, %s)", (3, "erniejohnson", "Fair", "Wonderful chair. Fixed my back problems.", datetime.now()))
     cursor.execute("INSERT INTO Reviews (id, username, rating, ratingText, date) VALUES (%s, %s, %s, %s, %s)", (4, "kobeb24", "Good", "This chair made me lose my ability to walk", datetime.now()))
