@@ -18,7 +18,7 @@ def insertItems(username):
 
     def updateItems():
         itemid = 0
-        def handleReview():     
+        def handleReview():
             i = 1
             t = datetime.today()
             for review in reviews:
@@ -108,18 +108,13 @@ def insertItems(username):
 
                 itemid = x[0]
 
-                if len(reviews) == 0:
-                    reviews.append(reviewText)
-                    dropdowns.append(clicked)
-                    usernames.append(x[1])
-                else:
-                    dropdowns.clear()
-                    reviews.clear()
-                    usernames.clear()
+                dropdowns.clear()
+                reviews.clear()
+                usernames.clear()
 
-                    reviews.append(reviewText)
-                    dropdowns.append(clicked)
-                    usernames.append(x[1])
+                reviews.append(reviewText)
+                dropdowns.append(clicked)
+                usernames.append(x[1])
 
                 reviewSubmit = tk.Button(secondary_window, text ="Submit Review",
                       bg ='blue', fg= 'white', command = handleReview)
@@ -167,18 +162,13 @@ def insertItems(username):
 
                 itemid = x[0]
 
-                if len(reviews) == 0:
-                    reviews.append(reviewText)
-                    dropdowns.append(clicked)
-                    usernames.append(x[1])
-                else:
-                    dropdowns.clear()
-                    reviews.clear()
-                    usernames.clear()
+                # dropdowns.clear()
+                # reviews.clear()
+                # usernames.clear()
 
-                    reviews.append(reviewText)
-                    dropdowns.append(clicked)
-                    usernames.append(x[1])
+                reviews.append(reviewText)
+                dropdowns.append(clicked)
+                usernames.append(x[1])
 
                 reviewSubmit = tk.Button(secondary_window, text ="Submit Review",
                       bg ='blue', fg= 'white', command = handleReview)
