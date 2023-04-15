@@ -118,7 +118,7 @@ def insertItems(username):
             secondary_window.config(width=1600, height=1000)
 
             cursor.execute(f"SELECT * FROM Items WHERE category LIKE '%{searchTerm}%'")
-            yIncrement = 20
+            yIncrement = 30
 
             for x in cursor:
                 lbl1 = tk.Label(secondary_window, text=x[1])
