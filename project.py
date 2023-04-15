@@ -3,6 +3,7 @@
 # Jason Khalili - Python Backend
 # test
 
+import time
 import mysql.connector
 import tkinter as tk
 from mysql.connector import Error
@@ -16,10 +17,10 @@ def insertItems(username):
     usernames = []
 
     def updateItems():
+        itemid = 0
         def handleReview():     
             i = 1
             t = datetime.today()
-            print(reviews)
             for review in reviews:
                 if (review.get()):
                     o = datetime.today().strftime("%Y-%m-%d")
@@ -39,9 +40,9 @@ def insertItems(username):
 
 
                     r = review.get()
-                    cursor.execute(f"INSERT INTO Reviews (id, username, rating, ratingText, date) VALUES (%s, %s, %s, %s, %s)", (i, username, dropdowns[i-1].get(), r, t))
+                    cursor.execute(f"INSERT INTO Reviews (id, username, rating, ratingText, date) VALUES (%s, %s, %s, %s, %s)", (itemid, username, dropdowns[i-1].get(), r, t))
                     dataBase.commit()
-                    lblp = tk.Label(secondary_window, text = "Added review.                                                  ")
+                    lblp = tk.Label(secondary_window, text = "Added review.                                                                                                                    ")
                     lblp.place(x = 400, y = 0)
 
                 i += 1;
@@ -105,6 +106,8 @@ def insertItems(username):
                 reviewText = tk.Entry(secondary_window, width = 50)
                 reviewText.place(x = 650, y = yIncrement, width = 100)
 
+                itemid = x[0]
+
                 if len(reviews) == 0:
                     reviews.append(reviewText)
                     dropdowns.append(clicked)
@@ -161,6 +164,8 @@ def insertItems(username):
 
                 reviewText = tk.Entry(secondary_window, width = 50)
                 reviewText.place(x = 650, y = yIncrement, width = 100)
+
+                itemid = x[0]
 
                 if len(reviews) == 0:
                     reviews.append(reviewText)
