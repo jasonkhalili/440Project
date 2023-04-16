@@ -17,6 +17,10 @@ def insertItems(username):
     usernames = []
 
     def updateItems():
+        dropdowns.clear()
+        reviews.clear()
+        usernames.clear()
+        
         itemid = 0
         def handleReview():
             i = 1
@@ -108,10 +112,6 @@ def insertItems(username):
 
                 itemid = x[0]
 
-                dropdowns.clear()
-                reviews.clear()
-                usernames.clear()
-
                 reviews.append(reviewText)
                 dropdowns.append(clicked)
                 usernames.append(x[1])
@@ -161,10 +161,6 @@ def insertItems(username):
                 reviewText.place(x = 650, y = yIncrement, width = 100)
 
                 itemid = x[0]
-
-                # dropdowns.clear()
-                # reviews.clear()
-                # usernames.clear()
 
                 reviews.append(reviewText)
                 dropdowns.append(clicked)
