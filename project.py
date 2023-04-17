@@ -16,6 +16,34 @@ def insertItems(username):
     reviews = []
     usernames = []
 
+    def mostExpensivePerCategory():
+        third_window = tk.Toplevel()
+        third_window.title("List of Items")
+        third_window.config(width=1600, height=1000)
+
+        cursor.execute(f"SELECT * FROM Items WHERE (category, price) IN (SELECT category, MAX(price) FROM Items GROUP BY category)")
+        
+        yIncrement = 30
+
+        for x in cursor:
+            lbl1 = tk.Label(third_window, text=x[1])
+            lbl1.place(x = 20, y = yIncrement)
+
+            lbl2 = tk.Label(third_window, text=x[2])
+            lbl2.place(x = 150, y = yIncrement)
+
+            lbl3 = tk.Label(third_window, text=x[3])
+            lbl3.place(x = 300, y = yIncrement)
+
+            lbl4 = tk.Label(third_window, text=x[4])
+            lbl4.place(x = 600, y = yIncrement)
+
+            lbl5 = tk.Label(third_window, text=x[5])
+            lbl5.place(x = 700, y = yIncrement)
+
+            yIncrement += 30
+
+
     def updateItems():
         dropdowns.clear()
         reviews.clear()
@@ -87,13 +115,13 @@ def insertItems(username):
                 lbl2.place(x = 150, y = yIncrement)
 
                 lbl3 = tk.Label(secondary_window, text=x[3])
-                lbl3.place(x = 250, y = yIncrement)
+                lbl3.place(x = 300, y = yIncrement)
 
                 lbl4 = tk.Label(secondary_window, text=x[4])
-                lbl4.place(x = 400, y = yIncrement)
+                lbl4.place(x = 600, y = yIncrement)
 
                 lbl5 = tk.Label(secondary_window, text=x[5])
-                lbl5.place(x = 500, y = yIncrement)
+                lbl5.place(x = 700, y = yIncrement)
 
                 options = [
                     "Excellent",
@@ -105,10 +133,10 @@ def insertItems(username):
                 clicked = StringVar()
                 clicked.set("Excellent")
                 drop = OptionMenu(secondary_window, clicked, *options)
-                drop.place(x = 550, y = yIncrement)
+                drop.place(x = 750, y = yIncrement)
 
                 reviewText = tk.Entry(secondary_window, width = 50)
-                reviewText.place(x = 650, y = yIncrement, width = 100)
+                reviewText.place(x = 850, y = yIncrement, width = 100)
 
                 itemid = x[0]
 
@@ -118,7 +146,7 @@ def insertItems(username):
 
                 reviewSubmit = tk.Button(secondary_window, text ="Submit Review",
                       bg ='blue', fg= 'white', command = handleReview)
-                reviewSubmit.place(x = 750, y = yIncrement, width = 100)
+                reviewSubmit.place(x = 950, y = yIncrement, width = 100)
 
                 yIncrement += 30
         else:
@@ -137,13 +165,13 @@ def insertItems(username):
                 lbl2.place(x = 150, y = yIncrement)
 
                 lbl3 = tk.Label(secondary_window, text=x[3])
-                lbl3.place(x = 250, y = yIncrement)
+                lbl3.place(x = 300, y = yIncrement)
 
                 lbl4 = tk.Label(secondary_window, text=x[4])
-                lbl4.place(x = 400, y = yIncrement)
+                lbl4.place(x = 600, y = yIncrement)
 
                 lbl4 = tk.Label(secondary_window, text=x[5])
-                lbl4.place(x = 500, y = yIncrement)
+                lbl4.place(x = 700, y = yIncrement)
 
                 options = [
                     "Excellent",
@@ -155,10 +183,10 @@ def insertItems(username):
                 clicked = StringVar()
                 clicked.set("Excellent")
                 drop = OptionMenu(secondary_window, clicked, *options)
-                drop.place(x = 550, y = yIncrement)
+                drop.place(x = 750, y = yIncrement)
 
                 reviewText = tk.Entry(secondary_window, width = 50)
-                reviewText.place(x = 650, y = yIncrement, width = 100)
+                reviewText.place(x = 850, y = yIncrement, width = 100)
 
                 itemid = x[0]
 
@@ -168,7 +196,7 @@ def insertItems(username):
 
                 reviewSubmit = tk.Button(secondary_window, text ="Submit Review",
                       bg ='blue', fg= 'white', command = handleReview)
-                reviewSubmit.place(x = 750, y = yIncrement, width = 100)
+                reviewSubmit.place(x = 950, y = yIncrement, width = 100)
 
                 yIncrement += 30
 
@@ -209,6 +237,12 @@ def insertItems(username):
     searchSubmit = tk.Button(root, text ="Search",
                       bg ='blue', fg= 'white', command = updateItems)
     searchSubmit.place(x = 400, y = 230, width = 55)
+
+
+
+    one = tk.Button(root, text ="Most Expensive By Category",
+                      bg ='blue', fg= 'white', command = mostExpensivePerCategory)
+    one.place(x = 600, y = 20, width = 200)
 
 def register():
     user = regUsername.get()
