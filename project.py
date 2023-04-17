@@ -43,6 +43,21 @@ def insertItems(username):
 
             yIncrement += 30
 
+    def twoItemsSameDay():
+        third_window = tk.Toplevel()
+        third_window.title("List of Items")
+        third_window.config(width=800, height=1000)
+
+        cursor.execute(f"SELECT DISTINCT p1.username FROM Items p1, Items p2 WHERE p1.username = p2.username AND p1.date = p2.date")
+        
+        yIncrement = 30
+
+        for x in cursor:
+            lbl1 = tk.Label(third_window, text=x[0])
+            lbl1.place(x = 20, y = yIncrement)
+
+            yIncrement += 30
+
 
     def updateItems():
         dropdowns.clear()
@@ -244,6 +259,10 @@ def insertItems(username):
                       bg ='blue', fg= 'white', command = mostExpensivePerCategory)
     one.place(x = 600, y = 20, width = 200)
 
+    two = tk.Button(root, text ="Users with posts on same day, different categories",
+                      bg ='blue', fg= 'white', command = twoItemsSameDay)
+    two.place(x = 600, y = 60, width = 300)
+
 def register():
     user = regUsername.get()
     passw = regpassword.get()
@@ -355,7 +374,7 @@ for x in cursor:
     print(x)
 
 root = tk.Tk()
-root.geometry("900x600")
+root.geometry("1200x600")
 root.title("DBMS Login Page")
   
  
