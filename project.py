@@ -43,12 +43,13 @@ def insertItems(username):
 
             yIncrement += 30
 
-    def twoItemsSameDay():
+    def twoItemsSameDay(uno, dos):
         third_window = tk.Toplevel()
         third_window.title("List of Items")
         third_window.config(width=800, height=1000)
 
-        cursor.execute(f"SELECT DISTINCT p1.username FROM Items p1, Items p2 WHERE p1.username = p2.username AND p1.date = p2.date")
+        cursor.execute(f"SELECT DISTINCT u.username FROM User u JOIN Items i1 ON u.username = i1.username JOIN Items i2 ON u.username = i2.username AND i1.id <> i2.id WHERE i1.category = '{uno}' AND i2.category = '{dos}' AND i1.date = i2.date")
+        # cursor.execute(f"SELECT DISTINCT p1.username FROM Items p1, Items p2 WHERE p1.username = p2.username AND p1.date = p2.date")
         
         yIncrement = 30
 
@@ -259,9 +260,17 @@ def insertItems(username):
                       bg ='blue', fg= 'white', command = mostExpensivePerCategory)
     one.place(x = 600, y = 20, width = 200)
 
+
+    twoEntryOne = tk.Entry(root, width = 35)
+    twoEntryOne.place(x = 600, y = 60, width = 100)
+
+    twoEntryTwo = tk.Entry(root, width = 35)
+    twoEntryTwo.place(x = 710, y = 60, width = 100)
+
+    
     two = tk.Button(root, text ="Users with posts on same day, different categories",
-                      bg ='blue', fg= 'white', command = twoItemsSameDay)
-    two.place(x = 600, y = 60, width = 300)
+                      bg ='blue', fg= 'white', command = lambda: twoItemsSameDay(twoEntryOne.get(), twoEntryTwo.get()))
+    two.place(x = 600, y = 90, width = 300)
 
 def register():
     user = regUsername.get()
@@ -343,6 +352,8 @@ def reset():
 
     cursor.execute("INSERT INTO Items (username, title, description, category, price, date) VALUES (%s, %s, %s, %s, %s, %s)", ("johnm", "iPhone 15", "Brand New Iphone 15", "phone", "1,000", datetime.now()))
     cursor.execute("INSERT INTO Items (username, title, description, category, price, date) VALUES (%s, %s, %s, %s, %s, %s)", ("johnm", "iPhone 15", "Used Samsung Galaxy S23", "phone", "800", datetime.now()))
+    cursor.execute("INSERT INTO Items (username, title, description, category, price, date) VALUES (%s, %s, %s, %s, %s, %s)", ("johnm", "BWM 328i", "Brand New BMW 328i", "car", "50,000", datetime.now()))
+    cursor.execute("INSERT INTO Items (username, title, description, category, price, date) VALUES (%s, %s, %s, %s, %s, %s)", ("johnm", "Toyota Corolla", "Used Toyota Corolla", "car", "20,000", datetime.now()))
     cursor.execute("INSERT INTO Items (username, title, description, category, price, date) VALUES (%s, %s, %s, %s, %s, %s)", ("erniejohnson", "Herman Miller Aeron Chair", "Aeron chair with full lumbar support", "chair", "1,200", datetime.now()))
     cursor.execute("INSERT INTO Items (username, title, description, category, price, date) VALUES (%s, %s, %s, %s, %s, %s)", ("kobeb24", "Generic Chair", "Chair from Office Depot", "chair", "200", datetime.now()))
     cursor.execute("INSERT INTO Items (username, title, description, category, price, date) VALUES (%s, %s, %s, %s, %s, %s)", ("mahdiebrahimi", "Crystal Geyser 12oz Water", "Refreshing water", "beverage", "10", datetime.now()))
