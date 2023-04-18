@@ -49,7 +49,6 @@ def insertItems(username):
         third_window.config(width=800, height=1000)
 
         cursor.execute(f"SELECT DISTINCT u.username FROM User u JOIN Items i1 ON u.username = i1.username JOIN Items i2 ON u.username = i2.username AND i1.id <> i2.id WHERE i1.category = '{uno}' AND i2.category = '{dos}' AND i1.date = i2.date")
-        # cursor.execute(f"SELECT DISTINCT p1.username FROM Items p1, Items p2 WHERE p1.username = p2.username AND p1.date = p2.date")
         
         yIncrement = 30
 
