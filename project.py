@@ -1,7 +1,6 @@
 # Talha Harooni - MySQL Server
 # Yasin Zahir - Python Frontend
 # Jason Khalili - Python Backend
-# test
 
 import time
 import mysql.connector
@@ -54,6 +53,21 @@ def insertItems(username):
 
         for x in cursor:
             lbl1 = tk.Label(third_window, text=x[0])
+            lbl1.place(x = 20, y = yIncrement)
+
+            yIncrement += 30
+
+    def excellentOrGood(u):
+        third_window = tk.Toplevel()
+        third_window.title("List of Items")
+        third_window.config(width=800, height=1000)
+
+        cursor.execute(f"SELECT i.id, i.title, r.rating FROM Items i JOIN Reviews r ON i.id = r.id WHERE i.username = '{u}' AND r.rating IN ('Excellent', 'Good') AND i.id NOT IN ( SELECT r2.id FROM Reviews r2 WHERE r2.rating NOT IN ('Excellent', 'Good'))")
+
+        yIncrement = 30
+
+        for x in cursor:
+            lbl1 = tk.Label(third_window, text=x[1])
             lbl1.place(x = 20, y = yIncrement)
 
             yIncrement += 30
@@ -266,10 +280,17 @@ def insertItems(username):
     twoEntryTwo = tk.Entry(root, width = 35)
     twoEntryTwo.place(x = 710, y = 60, width = 100)
 
-    
     two = tk.Button(root, text ="Users with posts on same day, different categories",
                       bg ='blue', fg= 'white', command = lambda: twoItemsSameDay(twoEntryOne.get(), twoEntryTwo.get()))
     two.place(x = 600, y = 90, width = 300)
+
+
+    threeEntry = tk.Entry(root, width = 35)
+    threeEntry.place(x = 600, y = 130, width = 100)
+
+    three = tk.Button(root, text ="Items posted by user, only 'Excellent' or 'Good' reviews",
+                      bg ='blue', fg= 'white', command = lambda: excellentOrGood(threeEntry.get()))
+    three.place(x = 600, y = 160, width = 300)
 
 def register():
     user = regUsername.get()
@@ -358,8 +379,8 @@ def reset():
     cursor.execute("INSERT INTO Items (username, title, description, category, price, date) VALUES (%s, %s, %s, %s, %s, %s)", ("mahdiebrahimi", "Crystal Geyser 12oz Water", "Refreshing water", "beverage", "10", datetime.now()))
 
     cursor.execute("INSERT INTO Reviews (id, username, rating, ratingText, date) VALUES (%s, %s, %s, %s, %s)", (1, "johnm", "Excellent", "This phone is too expensive.", datetime.now()))
-    cursor.execute("INSERT INTO Reviews (id, username, rating, ratingText, date) VALUES (%s, %s, %s, %s, %s)", (2, "johnm", "Poor", "Good phone, wish the ui was better.", datetime.now()))
-    cursor.execute("INSERT INTO Reviews (id, username, rating, ratingText, date) VALUES (%s, %s, %s, %s, %s)", (3, "erniejohnson", "Fair", "Wonderful chair. Fixed my back problems.", datetime.now()))
+    cursor.execute("INSERT INTO Reviews (id, username, rating, ratingText, date) VALUES (%s, %s, %s, %s, %s)", (2, "johnm", "Good", "Good phone, wish the ui was better.", datetime.now()))
+    cursor.execute("INSERT INTO Reviews (id, username, rating, ratingText, date) VALUES (%s, %s, %s, %s, %s)", (3, "erniejohnson", "Good", "Wonderful chair. Fixed my back problems.", datetime.now()))
     cursor.execute("INSERT INTO Reviews (id, username, rating, ratingText, date) VALUES (%s, %s, %s, %s, %s)", (4, "kobeb24", "Good", "This chair made me lose my ability to walk", datetime.now()))
     cursor.execute("INSERT INTO Reviews (id, username, rating, ratingText, date) VALUES (%s, %s, %s, %s, %s)", (5, "mahdiebrahimi", "Fair", "Refreshing!!!", datetime.now()))
 
@@ -387,8 +408,7 @@ root = tk.Tk()
 root.geometry("1200x600")
 root.title("DBMS Login Page")
   
- 
-# Defining the first row
+
 lblfrstrow = tk.Label(root, text ="Username:", )
 lblfrstrow.place(x = 50, y = 20)
  
