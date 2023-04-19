@@ -72,6 +72,21 @@ def insertItems(username):
 
             yIncrement += 30
 
+    def usersMostItems():
+        third_window = tk.Toplevel()
+        third_window.title("List of Items")
+        third_window.config(width=800, height=1000)
+
+        cursor.execute(f"SELECT u.username, COUNT(*) as num_items FROM User u JOIN Items i ON u.username = i.username WHERE i.date >= '2020-05-01' GROUP BY u.username HAVING COUNT(*) = (SELECT COUNT(*) FROM Items i2 WHERE i2.date >= '2020-05-01' GROUP BY i2.username ORDER BY COUNT(*) DESC LIMIT 1)")
+
+        yIncrement = 30
+
+        for x in cursor:
+            lbl1 = tk.Label(third_window, text=x[0])
+            lbl1.place(x = 20, y = yIncrement)
+
+            yIncrement += 30
+
 
     def updateItems():
         dropdowns.clear()
@@ -291,6 +306,11 @@ def insertItems(username):
     three = tk.Button(root, text ="Items posted by user, only 'Excellent' or 'Good' reviews",
                       bg ='blue', fg= 'white', command = lambda: excellentOrGood(threeEntry.get()))
     three.place(x = 600, y = 160, width = 300)
+
+
+    four = tk.Button(root, text ="Users who posted the most items",
+                      bg ='blue', fg= 'white', command = usersMostItems)
+    four.place(x = 600, y = 190, width = 300)
 
 def register():
     user = regUsername.get()
