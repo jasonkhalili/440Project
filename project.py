@@ -92,15 +92,33 @@ def insertItems(username):
         third_window.title("List of Items")
         third_window.config(width=800, height=1000)
 
-        cursor.execute(f"SELECT u.username FROM User u LEFT JOIN (SELECT i.username, i.id FROM Items i JOIN Reviews r ON i.id = r.id AND r.ratingText = 'Excellent' GROUP BY i.username, i.id HAVING COUNT(*) >= 3) excellent_items ON u.username = excellent_items.username WHERE excellent_items.id IS NULL")
+        cursor.execute(f"SELECT DISTINCT u.username FROM User u LEFT JOIN Items i ON u.username = i.username LEFT JOIN (SELECT r.id, i.username, COUNT(*) AS excellent_count FROM Reviews r INNER JOIN Items i ON r.id = i.id WHERE r.rating = 'Excellent' GROUP BY r.id, i.username HAVING COUNT(*) >= 3) e ON i.id = e.id AND i.username = e.username WHERE e.username IS NULL")
 
         yIncrement = 30
 
         for x in cursor:
+            print(x)
             lbl1 = tk.Label(third_window, text=x[0])
             lbl1.place(x = 20, y = yIncrement)
 
             yIncrement += 30
+
+    def neverPoor():
+        third_window = tk.Toplevel()
+        third_window.title("List of Items")
+        third_window.config(width=800, height=1000)
+
+        cursor.execute(f"SELECT DISTINCT u.username FROM User u LEFT JOIN Reviews r ON u.username = r.username WHERE r.rating <> 'Poor' OR r.rating IS NULL")
+
+        yIncrement = 30
+
+        for x in cursor:
+            print(x)
+            lbl1 = tk.Label(third_window, text=x[0])
+            lbl1.place(x = 20, y = yIncrement)
+
+            yIncrement += 30
+
 
     def updateItems():
         dropdowns.clear()
@@ -331,6 +349,10 @@ def insertItems(username):
                       bg ='blue', fg= 'white', command = neverExcellent)
     six.place(x = 600, y = 220, width = 300)
 
+    seven = tk.Button(root, text ="Users who never posted a poor review",
+                      bg ='blue', fg= 'white', command = neverPoor)
+    seven.place(x = 600, y = 250, width = 300)
+
 def register():
     user = regUsername.get()
     passw = regpassword.get()
@@ -410,7 +432,7 @@ def reset():
     cursor.execute("INSERT INTO User (username, password, firstname, lastname, email) VALUES (%s, %s, %s, %s, %s)", ("mahdiebrahimi", "comp440", "Mahdi", "Ebrahimi", "mahdiebrahimi@csun.edu"))
 
     cursor.execute("INSERT INTO Items (username, title, description, category, price, date) VALUES (%s, %s, %s, %s, %s, %s)", ("johnm", "iPhone 15", "Brand New Iphone 15", "phone", "1,000", datetime.now()))
-    cursor.execute("INSERT INTO Items (username, title, description, category, price, date) VALUES (%s, %s, %s, %s, %s, %s)", ("johnm", "iPhone 15", "Used Samsung Galaxy S23", "phone", "800", datetime.now()))
+    cursor.execute("INSERT INTO Items (username, title, description, category, price, date) VALUES (%s, %s, %s, %s, %s, %s)", ("johnm", "Samsung Galaxy S23", "Used Samsung Galaxy S23", "phone", "800", datetime.now()))
     cursor.execute("INSERT INTO Items (username, title, description, category, price, date) VALUES (%s, %s, %s, %s, %s, %s)", ("johnm", "BWM 328i", "Brand New BMW 328i", "car", "50,000", datetime.now()))
     cursor.execute("INSERT INTO Items (username, title, description, category, price, date) VALUES (%s, %s, %s, %s, %s, %s)", ("johnm", "Toyota Corolla", "Used Toyota Corolla", "car", "20,000", datetime.now()))
     cursor.execute("INSERT INTO Items (username, title, description, category, price, date) VALUES (%s, %s, %s, %s, %s, %s)", ("erniejohnson", "Herman Miller Aeron Chair", "Aeron chair with full lumbar support", "chair", "1,200", datetime.now()))
@@ -420,8 +442,11 @@ def reset():
     cursor.execute("INSERT INTO Reviews (id, username, rating, ratingText, date) VALUES (%s, %s, %s, %s, %s)", (1, "johnm", "Excellent", "This phone is too expensive.", datetime.now()))
     cursor.execute("INSERT INTO Reviews (id, username, rating, ratingText, date) VALUES (%s, %s, %s, %s, %s)", (2, "johnm", "Good", "Good phone, wish the ui was better.", datetime.now()))
     cursor.execute("INSERT INTO Reviews (id, username, rating, ratingText, date) VALUES (%s, %s, %s, %s, %s)", (3, "erniejohnson", "Good", "Wonderful chair. Fixed my back problems.", datetime.now()))
-    cursor.execute("INSERT INTO Reviews (id, username, rating, ratingText, date) VALUES (%s, %s, %s, %s, %s)", (4, "kobeb24", "Good", "This chair made me lose my ability to walk", datetime.now()))
+    cursor.execute("INSERT INTO Reviews (id, username, rating, ratingText, date) VALUES (%s, %s, %s, %s, %s)", (4, "kobeb24", "Poor", "This chair made me lose my ability to walk", datetime.now()))
     cursor.execute("INSERT INTO Reviews (id, username, rating, ratingText, date) VALUES (%s, %s, %s, %s, %s)", (5, "mahdiebrahimi", "Fair", "Refreshing!!!", datetime.now()))
+    cursor.execute("INSERT INTO Reviews (id, username, rating, ratingText, date) VALUES (%s, %s, %s, %s, %s)", (1, "johnm", "Excellent", "Perfect!", datetime.now()))
+    cursor.execute("INSERT INTO Reviews (id, username, rating, ratingText, date) VALUES (%s, %s, %s, %s, %s)", (1, "johnm", "Excellent", "Amazing!", datetime.now()))
+
 
 
     dataBase.commit()
