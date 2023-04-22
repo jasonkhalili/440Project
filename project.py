@@ -87,6 +87,20 @@ def insertItems(username):
 
             yIncrement += 30
 
+    def neverExcellent():
+        third_window = tk.Toplevel()
+        third_window.title("List of Items")
+        third_window.config(width=800, height=1000)
+
+        cursor.execute(f"SELECT u.username FROM User u LEFT JOIN (SELECT i.username, i.id FROM Items i JOIN Reviews r ON i.id = r.id AND r.ratingText = 'Excellent' GROUP BY i.username, i.id HAVING COUNT(*) >= 3) excellent_items ON u.username = excellent_items.username WHERE excellent_items.id IS NULL")
+
+        yIncrement = 30
+
+        for x in cursor:
+            lbl1 = tk.Label(third_window, text=x[0])
+            lbl1.place(x = 20, y = yIncrement)
+
+            yIncrement += 30
 
     def updateItems():
         dropdowns.clear()
@@ -311,6 +325,11 @@ def insertItems(username):
     four = tk.Button(root, text ="Users who posted the most items",
                       bg ='blue', fg= 'white', command = usersMostItems)
     four.place(x = 600, y = 190, width = 300)
+
+
+    six = tk.Button(root, text ="Users who never posted an excellent item",
+                      bg ='blue', fg= 'white', command = neverExcellent)
+    six.place(x = 600, y = 220, width = 300)
 
 def register():
     user = regUsername.get()
