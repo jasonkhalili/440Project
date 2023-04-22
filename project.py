@@ -97,7 +97,6 @@ def insertItems(username):
         yIncrement = 30
 
         for x in cursor:
-            print(x)
             lbl1 = tk.Label(third_window, text=x[0])
             lbl1.place(x = 20, y = yIncrement)
 
@@ -113,7 +112,21 @@ def insertItems(username):
         yIncrement = 30
 
         for x in cursor:
-            print(x)
+            lbl1 = tk.Label(third_window, text=x[0])
+            lbl1.place(x = 20, y = yIncrement)
+
+            yIncrement += 30
+
+    def eachPoor():
+        third_window = tk.Toplevel()
+        third_window.title("List of Items")
+        third_window.config(width=800, height=1000)
+
+        cursor.execute(f"SELECT DISTINCT u.username FROM User u INNER JOIN Reviews r ON u.username = r.username LEFT JOIN (SELECT DISTINCT username FROM Reviews WHERE rating <> 'poor' OR rating IS NULL) p ON u.username = p.username WHERE p.username IS NULL;")
+
+        yIncrement = 30
+
+        for x in cursor:
             lbl1 = tk.Label(third_window, text=x[0])
             lbl1.place(x = 20, y = yIncrement)
 
@@ -352,6 +365,10 @@ def insertItems(username):
     seven = tk.Button(root, text ="Users who never posted a poor review",
                       bg ='blue', fg= 'white', command = neverPoor)
     seven.place(x = 600, y = 250, width = 300)
+
+    seven = tk.Button(root, text ="Users posted reviews, but each is 'poor'",
+                      bg ='blue', fg= 'white', command = eachPoor)
+    seven.place(x = 600, y = 280, width = 300)
 
 def register():
     user = regUsername.get()
