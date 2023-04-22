@@ -366,9 +366,9 @@ def insertItems(username):
                       bg ='blue', fg= 'white', command = neverPoor)
     seven.place(x = 600, y = 250, width = 300)
 
-    seven = tk.Button(root, text ="Users posted reviews, but each is 'poor'",
+    eight = tk.Button(root, text ="Users posted reviews, but each is 'poor'",
                       bg ='blue', fg= 'white', command = eachPoor)
-    seven.place(x = 600, y = 280, width = 300)
+    eight.place(x = 600, y = 280, width = 300)
 
 def register():
     user = regUsername.get()
