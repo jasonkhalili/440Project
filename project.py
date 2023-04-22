@@ -147,6 +147,22 @@ def insertItems(username):
 
             yIncrement += 30
 
+    def eachOtherExcellent():
+        third_window = tk.Toplevel()
+        third_window.title("List of Items")
+        third_window.config(width=800, height=1000)
+
+        cursor.execute(f"SELECT DISTINCT i1.username AS userA, i2.username AS userB FROM Items i1 INNER JOIN Items i2 INNER JOIN Reviews r1 ON i1.id = r1.id AND i2.username = r1.username AND r1.rating = 'excellent'INNER JOIN Reviews r2 ON i2.id = r2.id AND i1.username = r2.username AND r2.rating = 'excellent';")
+
+        yIncrement = 30
+
+        for x in cursor:
+            placeholder = f"({x[0]}, {x[1]})"
+            lbl1 = tk.Label(third_window, text=placeholder)
+            lbl1.place(x = 20, y = yIncrement)
+
+            yIncrement += 30
+
 
     def updateItems():
         dropdowns.clear()
@@ -392,6 +408,11 @@ def insertItems(username):
                       bg ='blue', fg= 'white', command = noPoorReviews)
     nine.place(x = 600, y = 320, width = 400)
 
+
+    ten = tk.Button(root, text ="User pairs that alwasy gave each other 'excellent' reviews",
+                      bg ='blue', fg= 'white', command = eachOtherExcellent)
+    ten.place(x = 600, y = 350, width = 400)
+
 def register():
     user = regUsername.get()
     passw = regpassword.get()
@@ -482,9 +503,11 @@ def reset():
     cursor.execute("INSERT INTO Reviews (id, username, rating, ratingText, date) VALUES (%s, %s, %s, %s, %s)", (2, "johnm", "Good", "Good phone, wish the ui was better.", datetime.now()))
     cursor.execute("INSERT INTO Reviews (id, username, rating, ratingText, date) VALUES (%s, %s, %s, %s, %s)", (3, "erniejohnson", "Good", "Wonderful chair. Fixed my back problems.", datetime.now()))
     cursor.execute("INSERT INTO Reviews (id, username, rating, ratingText, date) VALUES (%s, %s, %s, %s, %s)", (4, "kobeb24", "Poor", "This chair made me lose my ability to walk", datetime.now()))
-    cursor.execute("INSERT INTO Reviews (id, username, rating, ratingText, date) VALUES (%s, %s, %s, %s, %s)", (5, "mahdiebrahimi", "Fair", "Refreshing!!!", datetime.now()))
+    cursor.execute("INSERT INTO Reviews (id, username, rating, ratingText, date) VALUES (%s, %s, %s, %s, %s)", (5, "mahdiebrahimi", "Excellent", "Refreshing!!!", datetime.now()))
     cursor.execute("INSERT INTO Reviews (id, username, rating, ratingText, date) VALUES (%s, %s, %s, %s, %s)", (1, "johnm", "Excellent", "Perfect!", datetime.now()))
     cursor.execute("INSERT INTO Reviews (id, username, rating, ratingText, date) VALUES (%s, %s, %s, %s, %s)", (1, "johnm", "Excellent", "Amazing!", datetime.now()))
+    cursor.execute("INSERT INTO Reviews (id, username, rating, ratingText, date) VALUES (%s, %s, %s, %s, %s)", (7, "erniejohnson", "Excellent", "Amazing!", datetime.now()))
+    
 
 
 
