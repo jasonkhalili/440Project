@@ -132,6 +132,21 @@ def insertItems(username):
 
             yIncrement += 30
 
+    def noPoorReviews():
+        third_window = tk.Toplevel()
+        third_window.title("List of Items")
+        third_window.config(width=800, height=1000)
+
+        cursor.execute(f"SELECT DISTINCT u.username FROM User u INNER JOIN Items i ON u.username = i.username LEFT JOIN (SELECT DISTINCT id FROM Reviews WHERE rating = 'poor') p ON i.id = p.id LEFT JOIN (SELECT DISTINCT id, COUNT(*) AS review_count FROM Reviews GROUP BY id ) c ON i.id = c.id WHERE p.id IS NULL AND (c.review_count IS NULL OR c.review_count = 0)")
+
+        yIncrement = 30
+
+        for x in cursor:
+            lbl1 = tk.Label(third_window, text=x[0])
+            lbl1.place(x = 20, y = yIncrement)
+
+            yIncrement += 30
+
 
     def updateItems():
         dropdowns.clear()
@@ -331,7 +346,7 @@ def insertItems(username):
 
     one = tk.Button(root, text ="Most Expensive By Category",
                       bg ='blue', fg= 'white', command = mostExpensivePerCategory)
-    one.place(x = 600, y = 20, width = 200)
+    one.place(x = 600, y = 20, width = 400)
 
 
     twoEntryOne = tk.Entry(root, width = 35)
@@ -342,7 +357,7 @@ def insertItems(username):
 
     two = tk.Button(root, text ="Users with posts on same day, different categories",
                       bg ='blue', fg= 'white', command = lambda: twoItemsSameDay(twoEntryOne.get(), twoEntryTwo.get()))
-    two.place(x = 600, y = 90, width = 300)
+    two.place(x = 600, y = 90, width = 400)
 
 
     threeEntry = tk.Entry(root, width = 35)
@@ -350,25 +365,32 @@ def insertItems(username):
 
     three = tk.Button(root, text ="Items posted by user, only 'Excellent' or 'Good' reviews",
                       bg ='blue', fg= 'white', command = lambda: excellentOrGood(threeEntry.get()))
-    three.place(x = 600, y = 160, width = 300)
+    three.place(x = 600, y = 160, width = 400)
 
 
     four = tk.Button(root, text ="Users who posted the most items",
                       bg ='blue', fg= 'white', command = usersMostItems)
-    four.place(x = 600, y = 190, width = 300)
+    four.place(x = 600, y = 200, width = 400)
 
 
     six = tk.Button(root, text ="Users who never posted an excellent item",
                       bg ='blue', fg= 'white', command = neverExcellent)
-    six.place(x = 600, y = 220, width = 300)
+    six.place(x = 600, y = 230, width = 400)
+
 
     seven = tk.Button(root, text ="Users who never posted a poor review",
                       bg ='blue', fg= 'white', command = neverPoor)
-    seven.place(x = 600, y = 250, width = 300)
+    seven.place(x = 600, y = 260, width = 400)
+
 
     eight = tk.Button(root, text ="Users posted reviews, but each is 'poor'",
                       bg ='blue', fg= 'white', command = eachPoor)
-    eight.place(x = 600, y = 280, width = 300)
+    eight.place(x = 600, y = 290, width = 400)
+
+
+    nine = tk.Button(root, text ="Users such that each item they posted hasn't received any 'poor' reviews",
+                      bg ='blue', fg= 'white', command = noPoorReviews)
+    nine.place(x = 600, y = 320, width = 400)
 
 def register():
     user = regUsername.get()
