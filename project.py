@@ -207,6 +207,7 @@ def insertItems(username):
         description = itemDescription.get()
         category = itemCategory.get()
         price = itemPrice.get()
+        price = int(price)
 
         if (searchTerm == ""):
             cursor.execute(f"SELECT * FROM Items WHERE username='{username}' AND date='{n}'")
@@ -482,7 +483,7 @@ def reset():
     cursor.execute("DROP TABLE IF EXISTS Reviews")
 
     cursor.execute("CREATE TABLE IF NOT EXISTS User (username varchar(255), password varchar(255), firstName char(255), lastName char(255), email varchar(255))")
-    cursor.execute("CREATE TABLE IF NOT EXISTS Items (id INT AUTO_INCREMENT PRIMARY KEY, username varchar(255), title varchar(255), description varchar(255), category varchar(255), price varchar(255), date DATE)")
+    cursor.execute("CREATE TABLE IF NOT EXISTS Items (id INT AUTO_INCREMENT PRIMARY KEY, username varchar(255), title varchar(255), description varchar(255), category varchar(255), price int, date DATE)")
     cursor.execute("CREATE TABLE Reviews (id INT, username varchar(255), rating varchar(255), ratingText varchar(255), date Date)")
 
     cursor.execute("INSERT INTO User (username, password, firstname, lastname, email) VALUES (%s, %s, %s, %s, %s)", ("jasonk", "password", "Jason", "Khalili", "jk@yahoo.com"))
@@ -491,13 +492,16 @@ def reset():
     cursor.execute("INSERT INTO User (username, password, firstname, lastname, email) VALUES (%s, %s, %s, %s, %s)", ("kobeb24", "basketball", "Kobe", "Bryant", "kb24@outlook.com"))
     cursor.execute("INSERT INTO User (username, password, firstname, lastname, email) VALUES (%s, %s, %s, %s, %s)", ("mahdiebrahimi", "comp440", "Mahdi", "Ebrahimi", "mahdiebrahimi@csun.edu"))
 
-    cursor.execute("INSERT INTO Items (username, title, description, category, price, date) VALUES (%s, %s, %s, %s, %s, %s)", ("johnm", "iPhone 15", "Brand New Iphone 15", "phone", "1,000", datetime.now()))
-    cursor.execute("INSERT INTO Items (username, title, description, category, price, date) VALUES (%s, %s, %s, %s, %s, %s)", ("johnm", "Samsung Galaxy S23", "Used Samsung Galaxy S23", "phone", "800", datetime.now()))
-    cursor.execute("INSERT INTO Items (username, title, description, category, price, date) VALUES (%s, %s, %s, %s, %s, %s)", ("johnm", "BWM 328i", "Brand New BMW 328i", "car", "50,000", datetime.now()))
-    cursor.execute("INSERT INTO Items (username, title, description, category, price, date) VALUES (%s, %s, %s, %s, %s, %s)", ("johnm", "Toyota Corolla", "Used Toyota Corolla", "car", "20,000", datetime.now()))
-    cursor.execute("INSERT INTO Items (username, title, description, category, price, date) VALUES (%s, %s, %s, %s, %s, %s)", ("erniejohnson", "Herman Miller Aeron Chair", "Aeron chair with full lumbar support", "chair", "1,200", datetime.now()))
-    cursor.execute("INSERT INTO Items (username, title, description, category, price, date) VALUES (%s, %s, %s, %s, %s, %s)", ("kobeb24", "Generic Chair", "Chair from Office Depot", "chair", "200", datetime.now()))
-    cursor.execute("INSERT INTO Items (username, title, description, category, price, date) VALUES (%s, %s, %s, %s, %s, %s)", ("mahdiebrahimi", "Crystal Geyser 12oz Water", "Refreshing water", "beverage", "10", datetime.now()))
+    cursor.execute("INSERT INTO Items (username, title, description, category, price, date) VALUES (%s, %s, %s, %s, %s, %s)", ("johnm", "iPhone 15", "Brand New Iphone 15", "phone", 1000, datetime.now()))
+    cursor.execute("INSERT INTO Items (username, title, description, category, price, date) VALUES (%s, %s, %s, %s, %s, %s)", ("johnm", "Samsung Galaxy S23", "Used Samsung Galaxy S23", "phone", 800, datetime.now()))
+    cursor.execute("INSERT INTO Items (username, title, description, category, price, date) VALUES (%s, %s, %s, %s, %s, %s)", ("johnm", "BWM 328i", "Brand New BMW 328i", "car", 50000, datetime.now()))
+    cursor.execute("INSERT INTO Items (username, title, description, category, price, date) VALUES (%s, %s, %s, %s, %s, %s)", ("johnm", "Toyota Corolla", "Used Toyota Corolla", "car", 20000, datetime.now()))
+    cursor.execute("INSERT INTO Items (username, title, description, category, price, date) VALUES (%s, %s, %s, %s, %s, %s)", ("erniejohnson", "Herman Miller Aeron Chair", "Aeron chair with full lumbar support", "chair", 1200, datetime.now()))
+    cursor.execute("INSERT INTO Items (username, title, description, category, price, date) VALUES (%s, %s, %s, %s, %s, %s)", ("kobeb24", "Generic Chair", "Chair from Office Depot", "chair", 200, datetime.now()))
+    cursor.execute("INSERT INTO Items (username, title, description, category, price, date) VALUES (%s, %s, %s, %s, %s, %s)", ("mahdiebrahimi", "Crystal Geyser 12oz Water", "Refreshing water", "beverage", 10, datetime.now()))
+    cursor.execute("INSERT INTO Items (username, title, description, category, price, date) VALUES (%s, %s, %s, %s, %s, %s)", ("jasonk", "Nvidia 4090 Graphics Card", "High End Graphics Card", "GPU", 1000, datetime.now()))
+    cursor.execute("INSERT INTO Items (username, title, description, category, price, date) VALUES (%s, %s, %s, %s, %s, %s)", ("jasonk", "AMD Radeon HD 7850", "Old Graphics Card", "GPU", 300, datetime.now()))
+
 
     cursor.execute("INSERT INTO Reviews (id, username, rating, ratingText, date) VALUES (%s, %s, %s, %s, %s)", (1, "johnm", "Excellent", "This phone is too expensive.", datetime.now()))
     cursor.execute("INSERT INTO Reviews (id, username, rating, ratingText, date) VALUES (%s, %s, %s, %s, %s)", (2, "johnm", "Good", "Good phone, wish the ui was better.", datetime.now()))
