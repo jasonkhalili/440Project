@@ -92,7 +92,7 @@ def insertItems(username):
         third_window.title("List of Items")
         third_window.config(width=800, height=1000)
 
-        cursor.execute(f"SELECT DISTINCT u.username FROM User u LEFT JOIN Items i ON u.username = i.username LEFT JOIN (SELECT r.id, i.username, COUNT(*) AS excellent_count FROM Reviews r INNER JOIN Items i ON r.id = i.id WHERE r.rating = 'Excellent' GROUP BY r.id, i.username HAVING COUNT(*) >= 3) e ON i.id = e.id AND i.username = e.username WHERE e.username IS NULL")
+        cursor.execute(f"SELECT DISTINCT u.username FROM User u LEFT JOIN Items i ON i.username = u.username LEFT JOIN (SELECT id, COUNT(*) AS excellent_reviews FROM Reviews WHERE rating = 'excellent' GROUP BY id HAVING COUNT(*) >= 3) e ON e.id = i.id LEFT JOIN Reviews r ON r.id = i.id AND r.rating <> 'excellent' WHERE e.id IS NULL AND r.rating IS NULL;")
 
         yIncrement = 30
 
@@ -503,13 +503,13 @@ def reset():
     cursor.execute("INSERT INTO Items (username, title, description, category, price, date) VALUES (%s, %s, %s, %s, %s, %s)", ("jasonk", "AMD Radeon HD 7850", "Old Graphics Card", "GPU", 300, datetime.now()))
 
 
-    cursor.execute("INSERT INTO Reviews (id, username, rating, ratingText, date) VALUES (%s, %s, %s, %s, %s)", (1, "johnm", "Excellent", "This phone is too expensive.", datetime.now()))
+    cursor.execute("INSERT INTO Reviews (id, username, rating, ratingText, date) VALUES (%s, %s, %s, %s, %s)", (1, "jasonk", "Excellent", "This phone is too expensive.", datetime.now()))
     cursor.execute("INSERT INTO Reviews (id, username, rating, ratingText, date) VALUES (%s, %s, %s, %s, %s)", (2, "johnm", "Good", "Good phone, wish the ui was better.", datetime.now()))
     cursor.execute("INSERT INTO Reviews (id, username, rating, ratingText, date) VALUES (%s, %s, %s, %s, %s)", (3, "erniejohnson", "Good", "Wonderful chair. Fixed my back problems.", datetime.now()))
     cursor.execute("INSERT INTO Reviews (id, username, rating, ratingText, date) VALUES (%s, %s, %s, %s, %s)", (4, "kobeb24", "Poor", "This chair made me lose my ability to walk", datetime.now()))
     cursor.execute("INSERT INTO Reviews (id, username, rating, ratingText, date) VALUES (%s, %s, %s, %s, %s)", (5, "mahdiebrahimi", "Excellent", "Refreshing!!!", datetime.now()))
-    cursor.execute("INSERT INTO Reviews (id, username, rating, ratingText, date) VALUES (%s, %s, %s, %s, %s)", (1, "johnm", "Excellent", "Perfect!", datetime.now()))
-    cursor.execute("INSERT INTO Reviews (id, username, rating, ratingText, date) VALUES (%s, %s, %s, %s, %s)", (1, "johnm", "Excellent", "Amazing!", datetime.now()))
+    cursor.execute("INSERT INTO Reviews (id, username, rating, ratingText, date) VALUES (%s, %s, %s, %s, %s)", (1, "jasonk", "Excellent", "Perfect!", datetime.now()))
+    cursor.execute("INSERT INTO Reviews (id, username, rating, ratingText, date) VALUES (%s, %s, %s, %s, %s)", (1, "jasonk", "Excellent", "Amazing!", datetime.now()))
     cursor.execute("INSERT INTO Reviews (id, username, rating, ratingText, date) VALUES (%s, %s, %s, %s, %s)", (7, "erniejohnson", "Excellent", "Amazing!", datetime.now()))
     
 
