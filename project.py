@@ -62,7 +62,7 @@ def insertItems(username):
         third_window.title("List of Items")
         third_window.config(width=800, height=1000)
 
-        cursor.execute(f"SELECT i.id, i.title, r.rating FROM Items i JOIN Reviews r ON i.id = r.id WHERE i.username = '{u}' AND r.rating IN ('Excellent', 'Good') AND i.id NOT IN ( SELECT r2.id FROM Reviews r2 WHERE r2.rating NOT IN ('Excellent', 'Good'))")
+        cursor.execute(f"SELECT DISTINCT i.id, i.title, r.rating FROM Items i JOIN Reviews r ON i.id = r.id WHERE i.username = '{u}' AND r.rating IN ('Excellent', 'Good') AND i.id NOT IN ( SELECT r2.id FROM Reviews r2 WHERE r2.rating NOT IN ('Excellent', 'Good'))")
 
         yIncrement = 30
 
@@ -137,7 +137,7 @@ def insertItems(username):
         third_window.title("List of Items")
         third_window.config(width=800, height=1000)
 
-        cursor.execute(f"SELECT DISTINCT u.username FROM User u INNER JOIN Items i ON u.username = i.username LEFT JOIN (SELECT DISTINCT id FROM Reviews WHERE rating = 'poor') p ON i.id = p.id LEFT JOIN (SELECT DISTINCT id, COUNT(*) AS review_count FROM Reviews GROUP BY id ) c ON i.id = c.id WHERE p.id IS NULL AND (c.review_count IS NULL OR c.review_count = 0)")
+        cursor.execute(f"SELECT i.username FROM Items i WHERE i.username NOT IN (SELECT i2.username FROM Items i2 INNER JOIN Reviews r ON i2.id = r.id AND r.rating = 'poor') GROUP BY i.username;")
 
         yIncrement = 30
 
