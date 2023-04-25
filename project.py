@@ -501,10 +501,14 @@ def reset():
     cursor.execute("DROP TABLE IF EXISTS User")
     cursor.execute("DROP TABLE IF EXISTS Items")
     cursor.execute("DROP TABLE IF EXISTS Reviews")
+    cursor.execute("DROP TABLE IF EXISTS Favorites")
+
 
     cursor.execute("CREATE TABLE IF NOT EXISTS User (username varchar(255), password varchar(255), firstName char(255), lastName char(255), email varchar(255))")
     cursor.execute("CREATE TABLE IF NOT EXISTS Items (id INT AUTO_INCREMENT PRIMARY KEY, username varchar(255), title varchar(255), description varchar(255), category varchar(255), price int, date DATE)")
-    cursor.execute("CREATE TABLE Reviews (id INT, username varchar(255), rating varchar(255), ratingText varchar(255), date Date)")
+    cursor.execute("CREATE TABLE IF NOT EXISTS Reviews (id INT, username varchar(255), rating varchar(255), ratingText varchar(255), date Date)")
+    cursor.execute("CREATE TABLE IF NOT EXISTS Favorites (username varchar(255), favorite varchar(255))")
+
 
     cursor.execute("INSERT INTO User (username, password, firstname, lastname, email) VALUES (%s, %s, %s, %s, %s)", ("jasonk", "password", "Jason", "Khalili", "jk@yahoo.com"))
     cursor.execute("INSERT INTO User (username, password, firstname, lastname, email) VALUES (%s, %s, %s, %s, %s)", ("johnm", "blueberry", "John", "Myers", "johnm@gmail.com"))
@@ -522,7 +526,6 @@ def reset():
     cursor.execute("INSERT INTO Items (username, title, description, category, price, date) VALUES (%s, %s, %s, %s, %s, %s)", ("jasonk", "Nvidia 4090 Graphics Card", "High End Graphics Card", "GPU", 1000, datetime.now()))
     cursor.execute("INSERT INTO Items (username, title, description, category, price, date) VALUES (%s, %s, %s, %s, %s, %s)", ("jasonk", "AMD Radeon HD 7850", "Old Graphics Card", "GPU", 300, datetime.now()))
 
-
     cursor.execute("INSERT INTO Reviews (id, username, rating, ratingText, date) VALUES (%s, %s, %s, %s, %s)", (1, "jasonk", "Excellent", "This phone is too expensive.", datetime.now()))
     cursor.execute("INSERT INTO Reviews (id, username, rating, ratingText, date) VALUES (%s, %s, %s, %s, %s)", (2, "johnm", "Good", "Good phone, wish the ui was better.", datetime.now()))
     cursor.execute("INSERT INTO Reviews (id, username, rating, ratingText, date) VALUES (%s, %s, %s, %s, %s)", (3, "erniejohnson", "Good", "Wonderful chair. Fixed my back problems.", datetime.now()))
@@ -532,6 +535,10 @@ def reset():
     cursor.execute("INSERT INTO Reviews (id, username, rating, ratingText, date) VALUES (%s, %s, %s, %s, %s)", (1, "jasonk", "Excellent", "Amazing!", datetime.now()))
     cursor.execute("INSERT INTO Reviews (id, username, rating, ratingText, date) VALUES (%s, %s, %s, %s, %s)", (7, "erniejohnson", "Excellent", "Amazing!", datetime.now()))
     
+    cursor.execute("INSERT INTO Favorites (username, favorite) VALUES (%s, %s)", ("jasonk", "kobeb24"))
+    cursor.execute("INSERT INTO Favorites (username, favorite) VALUES (%s, %s)", ("johnm", "kobeb24"))
+
+
 
 
 
