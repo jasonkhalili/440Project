@@ -390,29 +390,49 @@ def insertItems(username):
     four.place(x = 600, y = 200, width = 400)
 
 
+    fiveOptions = []
+    cursor.execute("SELECT username FROM User")
+
+    for x in cursor:
+        fiveOptions.append(x)
+
+    fiveClicked = StringVar()
+    fiveClicked.set(fiveOptions[0])
+    
+    fiveEntryOne = OptionMenu(root, fiveClicked, *fiveOptions)
+    fiveEntryOne.place(x = 650, y = 240)
+
+    fiveEntryTwo = OptionMenu(root, fiveClicked, *fiveOptions)
+    fiveEntryTwo.place(x = 800, y = 240)
+
+    five = tk.Button(root, text ="Users who are favorited by both users",
+                      bg ='blue', fg= 'white', command = neverExcellent)
+    five.place(x = 600, y = 280, width = 400)
+
+
     six = tk.Button(root, text ="Users who never posted an excellent item",
                       bg ='blue', fg= 'white', command = neverExcellent)
-    six.place(x = 600, y = 230, width = 400)
+    six.place(x = 600, y = 320, width = 400)
 
 
     seven = tk.Button(root, text ="Users who never posted a poor review",
                       bg ='blue', fg= 'white', command = neverPoor)
-    seven.place(x = 600, y = 260, width = 400)
+    seven.place(x = 600, y = 350, width = 400)
 
 
     eight = tk.Button(root, text ="Users posted reviews, but each is 'poor'",
                       bg ='blue', fg= 'white', command = eachPoor)
-    eight.place(x = 600, y = 290, width = 400)
+    eight.place(x = 600, y = 380, width = 400)
 
 
     nine = tk.Button(root, text ="Users such that each item they posted hasn't received any 'poor' reviews",
                       bg ='blue', fg= 'white', command = noPoorReviews)
-    nine.place(x = 600, y = 320, width = 400)
+    nine.place(x = 600, y = 410, width = 400)
 
 
     ten = tk.Button(root, text ="User pairs that alwasy gave each other 'excellent' reviews",
                       bg ='blue', fg= 'white', command = eachOtherExcellent)
-    ten.place(x = 600, y = 350, width = 400)
+    ten.place(x = 600, y = 440, width = 400)
 
 def register():
     user = regUsername.get()
