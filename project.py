@@ -87,6 +87,21 @@ def insertItems(username):
 
             yIncrement += 30
 
+    def favoritedByBoth(firstu, secondu):
+        third_window = tk.Toplevel()
+        third_window.title("List of Items")
+        third_window.config(width=800, height=1000)
+
+        cursor.execute(f"SELECT DISTINCT f1.favorite FROM Favorites f1 JOIN Favorites f2 ON f1.favorite = f2.favorite WHERE f1.username = 'jasonk' AND f2.username = 'johnm'")
+
+        yIncrement = 30
+
+        for x in cursor:
+            lbl1 = tk.Label(third_window, text=x[0])
+            lbl1.place(x = 20, y = yIncrement)
+
+            yIncrement += 30
+
     def neverExcellent():
         third_window = tk.Toplevel()
         third_window.title("List of Items")
@@ -396,17 +411,20 @@ def insertItems(username):
     for x in cursor:
         fiveOptions.append(x)
 
-    fiveClicked = StringVar()
-    fiveClicked.set(fiveOptions[0])
+    fiveClickedOne = StringVar()
+    fiveClickedOne.set(fiveOptions[0])
+
+    fiveClickedTwo = StringVar()
+    fiveClickedTwo.set(fiveOptions[0])
     
-    fiveEntryOne = OptionMenu(root, fiveClicked, *fiveOptions)
+    fiveEntryOne = OptionMenu(root, fiveClickedOne, *fiveOptions)
     fiveEntryOne.place(x = 650, y = 240)
 
-    fiveEntryTwo = OptionMenu(root, fiveClicked, *fiveOptions)
+    fiveEntryTwo = OptionMenu(root, fiveClickedTwo, *fiveOptions)
     fiveEntryTwo.place(x = 800, y = 240)
 
     five = tk.Button(root, text ="Users who are favorited by both users",
-                      bg ='blue', fg= 'white', command = neverExcellent)
+                      bg ='blue', fg= 'white', command = lambda: favoritedByBoth(fiveClickedOne.get(), fiveClickedTwo.get()))
     five.place(x = 600, y = 280, width = 400)
 
 
